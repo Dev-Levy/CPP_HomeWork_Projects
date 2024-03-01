@@ -74,7 +74,6 @@ double feladat1(const char* s)
 			//double
 			ans = ans * 10 + *s - '0';
 
-			//string
 			num += *s;
 
 			s++;
