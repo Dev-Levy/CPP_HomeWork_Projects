@@ -2,7 +2,7 @@
 
 double feladat1(const char* s)
 {
-	//Oláh Levente - A3C6TV - feladat1 - V1
+	//Oláh Levente - A3C6TV - feladat1 - V2
 
 	double ans = 0.0;
 	bool positive = true;
@@ -90,7 +90,7 @@ double feladat1(const char* s)
 		{
 			s++;
 			int i = 10;
-			while (*s >= '0' && *s <= '9')
+			while (*s >= '0' && *s <= '9' && *s != '\0')
 			{
 				//fractional part
 				int numericForm = (*s - '0');

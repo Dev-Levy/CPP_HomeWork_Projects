@@ -15,7 +15,7 @@ namespace UnitTest1
 	{
 	public:
 
-		//Oláh Levente - A3C6TV - feladat1 - V1
+		//Oláh Levente - A3C6TV - feladat1 - V2
 		TEST_METHOD(Test_01)
 		{
 			ARE_EQUAL(-1234.5678, feladat1(" \n\t-1234.5678"));
