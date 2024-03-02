@@ -9,10 +9,16 @@ double feladat1(const char* s)
 	const char* k = s + 1;
 
 	//trimming WS from the start
-	while (*s < '!')
+	while (*s < '!' && *s != '\0')
 	{
 		s++;
 		k++;
+	}
+
+	// EOS found, return
+	if (*s == '\0')
+	{
+		return ans;
 	}
 
 	//hexa num
@@ -75,9 +81,9 @@ double feladat1(const char* s)
 			ans = ans * 10 + *s - '0';
 			s++;
 		}
-		if (*s != '.')
+		if (*s != '.' || *s == '\0')
 		{
-			//invalid, returns
+			//invalid or EOS, returns
 			return ans;
 		}
 		else
