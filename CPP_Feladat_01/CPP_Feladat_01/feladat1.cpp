@@ -2,11 +2,11 @@
 
 double feladat1(const char* s)
 {
+	//Oláh Levente - A3C6TV - feladat1 - V1
+
 	double ans = 0.0;
 	bool positive = true;
 	const char* k = s + 1;
-
-	std::string num = "";
 
 	//trimming WS from the start
 	while (*s < '!')
@@ -51,8 +51,6 @@ double feladat1(const char* s)
 			default:
 				ans = ans * 16 + *k - '0';
 			}
-
-			num += *k;
 			k++;
 		}
 		return ans;
@@ -65,39 +63,35 @@ double feladat1(const char* s)
 		if (*s == '-')
 		{
 			positive = false;
-
-			num += '-';
+			s++;
+		}
+		else if (*s == '+')
+		{
 			s++;
 		}
 		while (*s >= '0' && *s <= '9')
 		{
-			//double
+			//whole part
 			ans = ans * 10 + *s - '0';
-
-			num += *s;
-
 			s++;
 		}
 		if (*s != '.')
 		{
-			//hiba van, ezért visszatér az addigi eredménnyel
+			//invalid, returns
 			return ans;
 		}
 		else
 		{
-			num += *s;
 			s++;
 			int i = 10;
 			while (*s >= '0' && *s <= '9')
 			{
+				//fractional part
 				int numericForm = (*s - '0');
-
 				double fractionForm = static_cast<double>(numericForm) / i;
-
 				ans = ans + fractionForm;
-				i *= 10;
 
-				num += *s;
+				i *= 10;
 				s++;
 			}
 		}
