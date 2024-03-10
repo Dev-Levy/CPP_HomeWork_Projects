@@ -105,5 +105,34 @@ int SetSize(int s)
 		return -1;
 
 
+	char* source = fifoStartPtr;
+	char* destination = otherFifoStartPtr;
+
+	bool go = true;
+	while (go) {
+
+		*destination = *source;
+
+		// ha az új, vagy régi FIFO végére ér megáll
+		if (source == fifoEndPtr - 1 || destination == otherFifoStartPtr + s - 1)
+			go = false;
+
+
+		// popCounter, pushCounter átállítása
+		if (source == popCounter)
+			popCounter = destination;
+		if (source == pushCounter)
+			pushCounter = destination;
+
+		source++;
+		destination++;
+	}
+
+	free(fifoStartPtr);
+
+	fifoStartPtr = otherFifoStartPtr;
+	fifoEndPtr = fifoStartPtr + s;
+	counter = destination;
+
 	return 0;
 }
