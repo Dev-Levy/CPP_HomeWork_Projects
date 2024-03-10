@@ -79,9 +79,9 @@ int GetFree(void) // done
 {
 	if (fifoStartPtr == nullptr) // nincs FIFO
 		return -1;
-	int ans = fifoEndPtr - counter;
+	int asd = fifoEndPtr - counter;
 
-	return ans;
+	return asd;
 }
 
 int GetSize(void) //done
