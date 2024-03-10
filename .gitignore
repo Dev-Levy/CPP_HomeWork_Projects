@@ -3,3 +3,5 @@ bin
 bin_int
 test_binx64
 test_bin_int
+binx64
+x64bin_int
