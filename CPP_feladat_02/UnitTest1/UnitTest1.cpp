@@ -44,11 +44,133 @@ namespace UnitTest1
 			ARE_EQUAL(-1, ret);
 			DeleteFifo();
 		}
-		TEST_METHOD(PushTest)
+
+
+		TEST_METHOD(DeleteFifoTestOK)
+		{
+			NewFifo(1);
+			int ret = DeleteFifo();
+			ARE_EQUAL(0, ret);
+		}
+		TEST_METHOD(DeleteFifoTestNOK)
+		{
+			int ret = DeleteFifo();
+			ARE_EQUAL(-1, ret);
+		}
+
+
+
+		TEST_METHOD(PushTestOK)
 		{
 			NewFifo(1);
 			int asd = Push('s');
 			ARE_EQUAL(0, asd);
+			DeleteFifo();
+		}
+		TEST_METHOD(PushTestNOK)
+		{
+			NewFifo(1);
+			Push('s');
+			int asd = Push('s');
+			ARE_EQUAL(-1, asd);
+			DeleteFifo();
+		}
+		TEST_METHOD(PushTestNOK2)
+		{
+			int asd = Push('s');
+			ARE_EQUAL(-1, asd);
+			DeleteFifo();
+		}
+
+
+
+		TEST_METHOD(PopTestOK)
+		{
+			NewFifo(1);
+			Push('1');
+			int asd = Pop();
+			ARE_EQUAL((int)'1', asd);
+			DeleteFifo();
+		}
+		TEST_METHOD(PopTestNOK)
+		{
+			NewFifo(1);
+			int asd = Pop();
+			ARE_EQUAL(-1, asd);
+			DeleteFifo();
+		}
+		TEST_METHOD(PopTestNOK2)
+		{
+			Push('1');
+			int asd = Pop();
+			ARE_EQUAL(-1, asd);
+		}
+
+
+		TEST_METHOD(ClearFifoTestOK)
+		{
+			NewFifo(30);
+			int asd = ClearFifo();
+			ARE_EQUAL(0, asd);
+			DeleteFifo();
+		}
+		TEST_METHOD(ClearFifoTestNOK)
+		{
+			int asd = ClearFifo();
+			ARE_EQUAL(-1, asd);
+		}
+
+
+		TEST_METHOD(GetFreeTestOK)
+		{
+			NewFifo(30);
+			Push('s');
+			Push('s');
+			int asd = GetFree();
+			ARE_EQUAL(28, asd);
+			DeleteFifo();
+		}
+		TEST_METHOD(GetFreeTestOK2)
+		{
+			NewFifo(1);
+			Push('s');
+			int asd = GetFree();
+			ARE_EQUAL(0, asd);
+			DeleteFifo();
+		}
+		TEST_METHOD(GetFreeTestNOK)
+		{
+			int asd = GetFree();
+			ARE_EQUAL(-1, asd);
+		}
+
+
+
+		TEST_METHOD(GetSizeTestOK)
+		{
+			NewFifo(30);
+			int asd = GetSize();
+			ARE_EQUAL(30, asd);
+			DeleteFifo();
+		}
+
+
+		TEST_METHOD(SetSizeTestOK)
+		{
+			NewFifo(30);
+			SetSize(20);
+			int asd = GetSize();
+			ARE_EQUAL(20, asd);
+			DeleteFifo();
+		}
+
+		TEST_METHOD(SetSizeTestOK2)
+		{
+			NewFifo(30);
+			Push('a');
+			SetSize(20);
+			int asd = Pop();
+			ARE_EQUAL((int)'a', asd);
 			DeleteFifo();
 		}
 	};
