@@ -1,15 +1,24 @@
 #include "feladat2.h"
 #include <malloc.h>
 
-char* fifoStartPtr = nullptr;
-char* fifoEndPtr = nullptr;
-char* counter = nullptr;
-char* popCounter = nullptr;
-char* pushCounter = nullptr;
+//Oláh Levente - A3C6TV - feladat2 - V2
+
+
+static char* fifoStartPtr = nullptr;
+static char* fifoEndPtr = nullptr;
+static char* counter = nullptr;
+static char* popCounter = nullptr;
+static char* pushCounter = nullptr;
+
+// define fgetc kell használni
+// unsigned char kell Pushnál
+// fifo vars static kell
+// in, out int push és pop.hoz
+
 
 int NewFifo(int s) //done
 {
-	if (fifoStartPtr == nullptr || s <= 0) //van már FIFO || s<=0
+	if (fifoStartPtr == nullptr || s > 0) //van már FIFO || s<=0
 	{
 		fifoStartPtr = (char*)malloc(s);
 
@@ -53,11 +62,13 @@ int Pop(void)
 	if (fifoStartPtr == nullptr || fifoStartPtr == counter) // nincs FIFO || üres a tár
 		return -1;
 
-	char poppedData = *popCounter;
+	static char poppedData = *popCounter;
 	popCounter == fifoEndPtr - 1 ? popCounter = fifoStartPtr : popCounter++;
 
 
 	counter--;
+
+	//return (0xff & poppedData);
 	return poppedData;
 }
 
@@ -89,26 +100,24 @@ int GetSize(void) //done
 	if (fifoStartPtr == nullptr) // nincs FIFO
 		return -1;
 
-	int fee = (int)fifoEndPtr;
-	int foo = (int)fifoStartPtr;
-	int length = fifoEndPtr - fifoStartPtr;
+	static int length = fifoEndPtr - fifoStartPtr;
 
 	return length;
 }
 
 int SetSize(int s)
 {
-	char* otherFifoStartPtr = nullptr;
+	static char* otherFifoStartPtr = nullptr;
 
 	// nincs FIFO || s<=0 || memória allokáció sikertelen
 	if (fifoStartPtr == nullptr || s <= 0 || !(otherFifoStartPtr = (char*)malloc(s)))
 		return -1;
 
 
-	char* source = fifoStartPtr;
-	char* destination = otherFifoStartPtr;
+	static char* source = fifoStartPtr;
+	static char* destination = otherFifoStartPtr;
 
-	bool go = true;
+	static bool go = true;
 	while (go) {
 
 		*destination = *source;

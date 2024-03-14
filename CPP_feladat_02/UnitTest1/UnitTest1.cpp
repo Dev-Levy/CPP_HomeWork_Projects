@@ -2,10 +2,13 @@
 #include "CppUnitTest.h"
 #include "feladat2.h"
 
+
 #define ARE_EQUAL(expVal, actVal) Assert::AreEqual(expVal, actVal, L"-", LINE_INFO())
 #define WRITE(s) Logger::WriteMessage((const char*)s)
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+//Oláh Levente - A3C6TV - feladat2 - V2
 
 namespace UnitTest1
 {
