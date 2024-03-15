@@ -1,39 +1,66 @@
 #include "feladat3.h"
 #include <iostream>
 #include <fstream>
-using namespace std;
-#define MYBUFSIZE 8192
-#define MYMAXVALUE 65535
-#define MYMAXFN 128
-#define OK 0
-#define NOK (-1)
+
+
 
 int sortfile(char* infn, char* outfn, unsigned char* buf, unsigned short bufsize)
 {
+	if (infn == nullptr || outfn == nullptr || buf == nullptr)
+		return NOK;
+	else if (bufsize < 0 || bufsize > MYBUFSIZE)
+		return NOK;
+
+
 	//beolvasás
-	ifstream ifs(infn, ios_base::binary); //binary !
+	std::ifstream ifs(infn, std::ios_base::binary); //binary !
 	if (ifs.is_open())
 	{
 		unsigned short n;
-
+		int i = 0;
 		while (ifs.read((char*)&n, sizeof(n))) {
 
-		}
 
+			int whichBite = n / 8;
+			int whichBit = n % 8;
+
+			buf[whichBite] |= (1 << whichBit);
+			std::cout << i++ << ". " << n << ' ' << (int)buf[whichBite] << std::endl;
+		}
 		ifs.close();
 	}
+	else
+		return NOK;
 
 
+
+	std::cout << std::endl;
 
 
 
 	//kiírás
-	ofstream ofs; ofs.open(outfn, ios_base::binary);
+	std::ofstream ofs; 
+	ofs.open(outfn, std::ios_base::binary);
 	if (ofs.bad())
 		return(NOK);
-	unsigned short n = 27540;
 
-	ofs.write((char*)&n, sizeof(n));
-
+	unsigned short n = 0;
+	int num = 0;
+	for (size_t i = 0; i < bufsize; i++)
+	{
+		for (size_t j = 0; j < 8; j++)
+		{
+			if (buf[i] >> j & 1) {
+				n = i * 8 + j;
+				ofs.write((char*)&n, sizeof(n)); //binary
+				std::cout << num++ << ". " << n << std::endl;
+			}
+		}
+	}
 	ofs.close();
+
+	//visszaállítás
+	buf = {};
+
+	return OK;
 }
