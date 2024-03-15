@@ -12,8 +12,14 @@ namespace UnitTest1
 		
 		TEST_METHOD(TestMethod1)
 		{
-			char* filename = "";
-			sortfile();
+			unsigned char buffer[MYBUFSIZE] = {};
+
+			//ezt hogyan?
+			char* infn = " ide kéne az input file path ";
+
+			std::string outfn = std::string(infn) + ".srt";
+			
+			sortfile(infn, (char*)outfn.data(), buffer, MYBUFSIZE);
 		}
 	};
 }
