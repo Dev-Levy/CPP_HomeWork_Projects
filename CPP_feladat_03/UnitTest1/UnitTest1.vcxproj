@@ -197,6 +197,11 @@
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CPP_feladat_03\CPP_feladat_03.vcxproj">
+      <Project>{8d0b6600-a70b-41fa-b0a0-13ac428db795}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

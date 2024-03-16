@@ -39,20 +39,20 @@ int sortfile(char* infn, char* outfn, unsigned char* buf, unsigned short bufsize
 
 
 	//kiírás
-	std::ofstream ofs; 
+	std::ofstream ofs;
 	ofs.open(outfn, std::ios_base::binary);
 	if (ofs.bad())
 		return NOK;
 
 	unsigned short n = 0;
 	int num = 0;
-	for (size_t i = 0; i < bufsize; i++)
+	for (int i = 0; i < bufsize; i++)
 	{
-		for (size_t j = 0; j < 8; j++)
+		for (int j = 0; j < 8; j++)
 		{
 			if (buf[i] >> j & 1) {
 				n = i * 8 + j;
-				ofs.write((char*)&n, sizeof(n)); //binary
+				ofs.write((char*)&n, sizeof(n));
 				std::cout << num++ << ". " << n << std::endl;
 			}
 		}
@@ -60,7 +60,8 @@ int sortfile(char* infn, char* outfn, unsigned char* buf, unsigned short bufsize
 	ofs.close();
 
 	//visszaállítás
-	buf = {};
+	for (size_t i = 0; i < MYBUFSIZE; i++)
+		buf[i] = NULL;
 
 	return OK;
 }
