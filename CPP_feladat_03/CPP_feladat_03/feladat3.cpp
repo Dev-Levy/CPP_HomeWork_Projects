@@ -42,7 +42,7 @@ int sortfile(char* infn, char* outfn, unsigned char* buf, unsigned short bufsize
 	std::ofstream ofs; 
 	ofs.open(outfn, std::ios_base::binary);
 	if (ofs.bad())
-		return(NOK);
+		return NOK;
 
 	unsigned short n = 0;
 	int num = 0;

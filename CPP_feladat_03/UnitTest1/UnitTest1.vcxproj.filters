@@ -27,4 +27,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\testin5.dat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\testin10.dat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\testin50.dat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\testin100.dat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\testin10000.dat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
 </Project>
