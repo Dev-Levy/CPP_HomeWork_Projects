@@ -1,3 +1,12 @@
+//  OLÁH LEVENTE
+//
+//     A3C6TV
+//
+//    FELADAT3
+//
+//    VERZIÓ: 1
+
+
 #pragma once
 #define MYBUFSIZE 8192
 #define MYMAXVALUE 65535

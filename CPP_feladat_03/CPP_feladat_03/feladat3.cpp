@@ -1,3 +1,11 @@
+//  OLÁH LEVENTE
+//
+//     A3C6TV
+//
+//    FELADAT3
+//
+//    VERZIÓ: 1
+
 #include "feladat3.h"
 #include <iostream>
 #include <fstream>

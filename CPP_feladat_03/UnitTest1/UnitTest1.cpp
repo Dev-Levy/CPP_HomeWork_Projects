@@ -1,3 +1,11 @@
+//  OLÁH LEVENTE
+//
+//     A3C6TV
+//
+//    FELADAT3
+//
+//    VERZIÓ: 1
+
 #include "pch.h"
 #include "CppUnitTest.h"
 #include <filesystem>
