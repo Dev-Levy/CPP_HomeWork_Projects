@@ -71,5 +71,8 @@ int sortfile(char* infn, char* outfn, unsigned char* buf, unsigned short bufsize
 	for (size_t i = 0; i < MYBUFSIZE; i++)
 		buf[i] = NULL;
 
+	//ez miért nem müködik?
+	//buf = {};
+
 	return OK;
 }
