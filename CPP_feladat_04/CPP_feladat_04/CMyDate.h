@@ -8,12 +8,12 @@ public:
 	void Get();
 	void Display();
 	int DayOfTheYear(); //nap sorszáma az évben
-	int GetDay();
-	int GetMonth();
-	int GetYear();
-	void SetDay(int day);
-	void SetMonth(int month);
+	int GetDay() const;
+	int GetMonth() const;
+	int GetYear() const;
 	void SetYear(int year);
+	void SetMonth(int month);
+	void SetDay(int day);
 private:
 	int m_iDay;
 	int m_iMonth;

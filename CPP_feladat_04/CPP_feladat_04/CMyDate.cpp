@@ -39,7 +39,6 @@ void CMyDate::Get()
 	SetYear(std::stoi(ev));
 	SetMonth(std::stoi(honap));
 	SetDay(std::stoi(nap));
-
 }
 
 void CMyDate::Display()
@@ -64,6 +63,23 @@ int CMyDate::DayOfTheYear()
 	return sum;
 }
 
+void CMyDate::SetYear(int year)
+{
+	if (year < 1970)
+		throw CMyDateException(CMyDateException::ErrMinYear);
+
+	m_iYear = year;
+	IsLeapYear = m_iYear % 4 == 0 && (m_iYear % 100 != 0 || m_iYear % 400 == 0);
+}
+void CMyDate::SetMonth(int month)
+{
+	if (month > 0 && month < 13)
+		m_iMonth = month;
+	else if (month < 1)
+		throw CMyDateException(CMyDateException::ErrMinMonth);
+	else if (month > 12)
+		throw CMyDateException(CMyDateException::ErrMaxMonth);
+}
 void CMyDate::SetDay(int day)
 {
 	switch (m_iMonth)
@@ -114,34 +130,15 @@ void CMyDate::SetDay(int day)
 	}
 }
 
-void CMyDate::SetMonth(int month)
-{
-	if (month > 0 && month < 13)
-		m_iMonth = month;
-	else if (month < 1)
-		throw CMyDateException(CMyDateException::ErrMinMonth);
-	else if (month > 12)
-		throw CMyDateException(CMyDateException::ErrMaxMonth);
-}
-
-void CMyDate::SetYear(int year)
-{
-	if (year < 1970)
-		throw CMyDateException(CMyDateException::ErrMinYear);
-
-	m_iYear = year;
-	IsLeapYear = m_iYear % 4 == 0 && (m_iYear % 100 != 0 || m_iYear % 400 == 0);
-}
-
-int CMyDate::GetDay()
+int CMyDate::GetDay() const
 {
 	return m_iDay;
 }
-int CMyDate::GetMonth()
+int CMyDate::GetMonth() const
 {
 	return m_iMonth;
 }
-int CMyDate::GetYear()
+int CMyDate::GetYear() const
 {
 	return m_iYear;
 }
