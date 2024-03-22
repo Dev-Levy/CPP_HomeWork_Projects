@@ -1,5 +1,7 @@
 #pragma once
-class CMyDateException
+#include <exception>
+
+class CMyDateException : public std::exception
 {
 public:
 	CMyDateException(const char* s);
