@@ -8,6 +8,10 @@ int main() {
 		asd.Get();
 		asd.Display();
 		asd.~CMyDate();
+
+		int d = asd.GetDay();
+		int m = asd.GetMonth();
+		int y = asd.GetYear();
 	}
 	catch (const std::exception& e)
 	{

@@ -1,6 +1,14 @@
 #pragma once
 #include <exception>
 
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 4
+//
+//	 VERZIÓ: 1
+
 class CMyDateException : public std::exception
 {
 public:

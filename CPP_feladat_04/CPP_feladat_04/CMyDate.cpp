@@ -3,6 +3,14 @@
 #include <iostream>
 #include <string>
 
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 4
+//
+//	 VERZIÓ: 1
+
 CMyDate::CMyDate()
 {
 	m_iYear = 1970;
@@ -24,28 +32,36 @@ CMyDate::~CMyDate()
 
 void CMyDate::Get()
 {
-	std::string ev;
-	std::cout << "Ev: ";
-	std::cin >> ev;
+	try
+	{
+		std::string ev;
+		std::cout << "Ev: ";
+		std::cin >> ev;
 
-	std::string honap;
-	std::cout << "Honap: ";
-	std::cin >> honap;
+		std::string honap;
+		std::cout << "Honap: ";
+		std::cin >> honap;
 
-	std::string nap;
-	std::cout << "Nap: ";
-	std::cin >> nap;
+		std::string nap;
+		std::cout << "Nap: ";
+		std::cin >> nap;
 
-	SetYear(std::stoi(ev));
-	SetMonth(std::stoi(honap));
-	SetDay(std::stoi(nap));
+		SetYear(std::stoi(ev));
+		SetMonth(std::stoi(honap));
+		SetDay(std::stoi(nap));
+	}
+	catch (const std::exception&)
+	{
+		throw CMyDateException(CMyDateException::ErrUnexpected);
+	}
+
 }
 
 void CMyDate::Display()
 {
 	std::string months[12] = { "januar", "februar", "marcius", "aprilis", "majus", "junius", "julius", "augusztus", "szeptember", "oktober", "november", "december" };
 
-	std::cout << m_iYear << " " << months[m_iMonth - 1] << " " << m_iDay << "." << std::endl;
+	std::cout << m_iYear << " " << months[m_iMonth - 1] << " " << m_iDay << "." << std::flush;
 }
 
 int CMyDate::DayOfTheYear()

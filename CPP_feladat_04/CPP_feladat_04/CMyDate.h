@@ -1,4 +1,13 @@
 #pragma once
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 4
+//
+//	 VERZIÓ: 1
+
 class CMyDate
 {
 public:
