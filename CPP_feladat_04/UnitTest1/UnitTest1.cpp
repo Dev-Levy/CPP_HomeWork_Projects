@@ -12,26 +12,19 @@
 //
 //	 FELADAT: 4
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest1
 {
-	void inputtest(const char* input, CMyDate& d, bool get)
+	void inputtest(const char* input, CMyDate& d)
 	{
 		std::istringstream sin{ input };
 		auto cin_rdbuf = std::cin.rdbuf(sin.rdbuf());
 		try
 		{
-			if (get)
-			{
-				d.Get();
-			}
-			else
-			{
-
-			}
+			d.Get();
 		}
 		catch (CMyDateException& e)
 		{
@@ -150,6 +143,9 @@ namespace UnitTest1
 			std::string str = buffer.str();
 
 			ARE_EQUALSTR("2000 januar 10.", str.c_str());
+
+			// Undo the effects of buffer and old variables
+			std::cout.rdbuf(old);
 		}
 		TEST_METHOD(DayOfTheYearTest)
 		{
@@ -166,13 +162,50 @@ namespace UnitTest1
 			auto asd = CMyDate(2000, 12, 31);
 			ARE_EQUAL(366, asd.DayOfTheYear());
 		}
-		TEST_METHOD(asdasdasd)
+		TEST_METHOD(GetTest)
 		{
 			CMyDate d;
 			const char* input = "2000\n1\n8\n";
-			inputtest(input, d, true);
+			inputtest(input, d);
 			int y = d.GetYear();
 			ARE_EQUAL(2000, y);
+			int m = d.GetMonth();
+			ARE_EQUAL(1, m);
+			int day = d.GetDay();
+			ARE_EQUAL(8, day);
+		}
+		TEST_METHOD(GetTest2)
+		{
+			try
+			{
+				CMyDate d;
+				const char* input = "asd\n1\n8\n";
+				inputtest(input, d);
+			}
+			catch (CMyDateException& e)
+			{
+				ARE_EQUAL(CMyDateException::ErrUnexpected, e.what());
+			}
+
+		}
+
+		TEST_METHOD(SetYearTest)
+		{
+			CMyDate d;
+			d.SetYear(2000);
+			ARE_EQUAL(2000, d.GetYear());
+		}
+
+		TEST_METHOD(ErrorStoringTest)
+		{
+			try
+			{
+				throw CMyDateException(CMyDateException::ErrMaxDay);
+			}
+			catch (CMyDateException& e)
+			{
+				ARE_EQUAL(CMyDateException::ErrMaxDay, e.what());
+			}
 		}
 	};
 }

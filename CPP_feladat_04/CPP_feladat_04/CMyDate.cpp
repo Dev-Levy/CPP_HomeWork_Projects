@@ -9,7 +9,7 @@
 //
 //	 FELADAT: 4
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 CMyDate::CMyDate()
 {
@@ -46,11 +46,10 @@ void CMyDate::Get()
 		std::cout << "Nap: ";
 		std::cin >> nap;
 
-		SetYear(std::stoi(ev));
-		SetMonth(std::stoi(honap));
-		SetDay(std::stoi(nap));
+
+		*this = CMyDate(std::stoi(ev), std::stoi(honap), std::stoi(nap));
 	}
-	catch (const std::exception&)
+	catch (...)
 	{
 		throw CMyDateException(CMyDateException::ErrUnexpected);
 	}

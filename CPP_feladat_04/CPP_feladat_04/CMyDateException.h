@@ -7,7 +7,7 @@
 //
 //	 FELADAT: 4
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 class CMyDateException : public std::exception
 {
