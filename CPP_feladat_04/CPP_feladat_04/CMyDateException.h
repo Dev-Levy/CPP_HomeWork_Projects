@@ -1,5 +1,6 @@
 #pragma once
 #include <exception>
+#include <string>
 
 //	Oláh Levente
 //
@@ -23,5 +24,6 @@ public:
 	static constexpr const char* ErrUnexpected = "Hiba: nem várt hiba!";
 
 private:
-	const char* msg;			// kivétel okának, a szövegének tárolása
+	//const char* msg;			// kivétel okának, a szövegének tárolása
+	std::string msg;
 };
