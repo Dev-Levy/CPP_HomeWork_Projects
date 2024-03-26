@@ -1,15 +1,15 @@
-#include "CMyDate.h"
+﻿#include "CMyDate.h"
 #include "CMyDateException.h"
 #include <iostream>
 #include <string>
 
-//	Ol�h Levente
+//	Oláh Levente
 //
 //	  A3C6TV
 //
 //	 FELADAT: 4
 //
-//	 VERZI�: 2
+//	 VERZIÓ: 2
 
 CMyDate::CMyDate()
 {
@@ -90,10 +90,18 @@ void CMyDate::SetMonth(int month)
 {
 	if (month > 0 && month < 13)
 		m_iMonth = month;
-	else if (month < 1)
-		throw CMyDateException(CMyDateException::ErrMinMonth);
-	else if (month > 12)
-		throw CMyDateException(CMyDateException::ErrMaxMonth);
+	else if (month < 1) throw CMyDateException(CMyDateException::ErrMinMonth);
+	else if (month > 12) throw CMyDateException(CMyDateException::ErrMaxMonth);
+
+	//ha átállítjuk a hónapot, akkor a napot is ellenőrizni kell
+	try
+	{
+		SetDay(m_iDay);
+	}
+	catch (CMyDateException& e)
+	{
+		throw e;
+	}
 }
 void CMyDate::SetDay(int day)
 {
@@ -103,20 +111,16 @@ void CMyDate::SetDay(int day)
 	case 1:	case 3:	case 5:	case 7:	case 8:	case 10: case 12:
 		if (day > 0 && day < 32)
 			m_iDay = day;
-		else if (day < 1)
-			throw CMyDateException(CMyDateException::ErrMinDay);
-		else if (day > 31)
-			throw CMyDateException(CMyDateException::ErrMaxDay);
+		else if (day < 1) throw CMyDateException(CMyDateException::ErrMinDay);
+		else if (day > 31) throw CMyDateException(CMyDateException::ErrMaxDay);
 		break;
 
 		//30 days
 	case 4:	case 6:	case 9:	case 11:
 		if (day > 0 && day < 31)
 			m_iDay = day;
-		else if (day < 1)
-			throw CMyDateException(CMyDateException::ErrMinDay);
-		else if (day > 30)
-			throw CMyDateException(CMyDateException::ErrMaxDay);
+		else if (day < 1) throw CMyDateException(CMyDateException::ErrMinDay);
+		else if (day > 30) throw CMyDateException(CMyDateException::ErrMaxDay);
 		break;
 
 		//february
@@ -125,19 +129,15 @@ void CMyDate::SetDay(int day)
 		{
 			if (day > 0 && day < 30)
 				m_iDay = day;
-			else if (day < 1)
-				throw CMyDateException(CMyDateException::ErrMinDay);
-			else if (day > 29)
-				throw CMyDateException(CMyDateException::ErrMaxDay);
+			else if (day < 1) throw CMyDateException(CMyDateException::ErrMinDay);
+			else if (day > 29) throw CMyDateException(CMyDateException::ErrMaxDay);
 		}
 		else
 		{
 			if (day > 0 && day < 29)
 				m_iDay = day;
-			else if (day < 1)
-				throw CMyDateException(CMyDateException::ErrMinDay);
-			else if (day > 28)
-				throw CMyDateException(CMyDateException::ErrMaxDay);
+			else if (day < 1) throw CMyDateException(CMyDateException::ErrMinDay);
+			else if (day > 28) throw CMyDateException(CMyDateException::ErrMaxDay);
 		}
 
 	default:
