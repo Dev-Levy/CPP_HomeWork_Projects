@@ -92,7 +92,15 @@ namespace UnitTest1
 			NewFifo(1);
 			Push('1');
 			int asd = Pop();
-			ARE_EQUAL((int)'1', asd);
+			ARE_EQUAL((int)'1', (int)asd);
+			DeleteFifo();
+		}
+		TEST_METHOD(PopTestOK2)
+		{
+			NewFifo(1);
+			Push(255);
+			int asd = Pop();
+			ARE_EQUAL(255, asd);
 			DeleteFifo();
 		}
 		TEST_METHOD(PopTestNOK)
@@ -174,6 +182,21 @@ namespace UnitTest1
 			SetSize(20);
 			int asd = Pop();
 			ARE_EQUAL((int)'a', asd);
+			DeleteFifo();
+		}
+
+		TEST_METHOD(SetSizeTestOK3)
+		{
+			NewFifo(3);
+			Push('a');
+			Push('a');
+			Push('a');
+			int asd = Push('0');
+			ARE_EQUAL(-1, asd);
+
+			SetSize(4);
+			int asd2 = Push('0');
+			ARE_EQUAL(0, asd2);
 			DeleteFifo();
 		}
 	};

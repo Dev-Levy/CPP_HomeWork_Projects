@@ -6,32 +6,29 @@
 
 static char* fifoStartPtr = nullptr;
 static char* fifoEndPtr = nullptr;
-static char* counter = nullptr;
-static char* popCounter = nullptr;
-static char* pushCounter = nullptr;
 
-// define fgetc kell használni
-// unsigned char kell Pushnál
-// fifo vars static kell
-// in, out int push és pop.hoz
+static int counter;
+static int out;
+static int in;
 
 
 int NewFifo(int s) //done
 {
-	if (fifoStartPtr == nullptr || s > 0) //van már FIFO || s<=0
-	{
-		fifoStartPtr = (char*)malloc(s);
+	if (fifoStartPtr != nullptr || s <= 0) //van már FIFO || s<=0	
+		return -1;
 
-		if (fifoStartPtr == nullptr) // memória allokáció sikertelen
-			return -1;
+	fifoStartPtr = (char*)malloc(s);
 
-		fifoEndPtr = fifoStartPtr + s;
-		counter = fifoStartPtr;
-		popCounter = fifoStartPtr;
-		pushCounter = fifoStartPtr;
-		return 0;
-	}
-	return -1;
+	if (fifoStartPtr == nullptr) // memória allokáció sikertelen
+		return -1;
+
+	fifoEndPtr = fifoStartPtr + s;
+
+	counter = 0;
+	out = 0;
+	in = 0;
+
+	return 0;
 }
 
 int DeleteFifo(void) //done
@@ -46,12 +43,12 @@ int DeleteFifo(void) //done
 
 int Push(char c)
 {
-	if (fifoStartPtr == nullptr || fifoEndPtr == counter) // nincs FIFO || betelt a FIFO
+	if (fifoStartPtr == nullptr || fifoEndPtr == fifoStartPtr + counter) // nincs FIFO || betelt a FIFO
 		return -1;
 
+	*(fifoStartPtr + in) = c;
 
-	*pushCounter = c;
-	pushCounter == fifoEndPtr - 1 ? pushCounter = fifoStartPtr : pushCounter++;
+	fifoStartPtr + in == fifoEndPtr - 1 ? in = 0 : in++;
 
 	counter++;
 	return 0;
@@ -59,17 +56,17 @@ int Push(char c)
 
 int Pop(void)
 {
-	if (fifoStartPtr == nullptr || fifoStartPtr == counter) // nincs FIFO || üres a tár
+	if (fifoStartPtr == nullptr || counter == 0) // nincs FIFO || üres a tár
 		return -1;
 
-	static char poppedData = *popCounter;
-	popCounter == fifoEndPtr - 1 ? popCounter = fifoStartPtr : popCounter++;
-
+	unsigned char poppedData = *(fifoStartPtr + out);
+	fifoStartPtr + out == fifoEndPtr - 1 ? out = 0 : out++;
 
 	counter--;
 
-	//return (0xff & poppedData);
-	return poppedData;
+	int result = 0xFF & poppedData;
+	//255-nél -1et adna vissza enélkül
+	return result;
 }
 
 int ClearFifo(void) //done
@@ -82,7 +79,7 @@ int ClearFifo(void) //done
 	{
 		*(fifoStartPtr + i) = NULL;
 	}
-	counter = fifoStartPtr;
+	counter = 0;
 	return 0;
 }
 
@@ -90,7 +87,7 @@ int GetFree(void) // done
 {
 	if (fifoStartPtr == nullptr) // nincs FIFO
 		return -1;
-	int asd = fifoEndPtr - counter;
+	int asd = fifoEndPtr - (fifoStartPtr + counter);
 
 	return asd;
 }
@@ -107,17 +104,17 @@ int GetSize(void) //done
 
 int SetSize(int s)
 {
-	static char* otherFifoStartPtr = nullptr;
+	char* otherFifoStartPtr = nullptr;
 
 	// nincs FIFO || s<=0 || memória allokáció sikertelen
 	if (fifoStartPtr == nullptr || s <= 0 || !(otherFifoStartPtr = (char*)malloc(s)))
 		return -1;
 
 
-	static char* source = fifoStartPtr;
-	static char* destination = otherFifoStartPtr;
+	char* source = fifoStartPtr;
+	char* destination = otherFifoStartPtr;
 
-	static bool go = true;
+	bool go = true;
 	while (go) {
 
 		*destination = *source;
@@ -128,10 +125,10 @@ int SetSize(int s)
 
 
 		// popCounter, pushCounter átállítása
-		if (source == popCounter)
-			popCounter = destination;
-		if (source == pushCounter)
-			pushCounter = destination;
+		if (source == fifoStartPtr + out)
+			out = destination - otherFifoStartPtr;
+		if (source == fifoStartPtr + in)
+			in = destination - otherFifoStartPtr;
 
 		source++;
 		destination++;
@@ -141,7 +138,7 @@ int SetSize(int s)
 
 	fifoStartPtr = otherFifoStartPtr;
 	fifoEndPtr = fifoStartPtr + s;
-	counter = destination;
+	fifoEndPtr - fifoStartPtr < counter ? counter = fifoEndPtr - fifoStartPtr : counter;
 
 	return 0;
 }
