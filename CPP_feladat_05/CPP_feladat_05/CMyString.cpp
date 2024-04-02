@@ -1,11 +1,22 @@
 #include "CMyString.h"
+#include <string.h>
 
 CMyString::CMyString()
 {
+	m_pchData = nullptr;
+	m_nDataLength = 0;
+	m_nAllocLength = 0;
+	m_iCounter = 0;
 }
 
 CMyString::CMyString(const char* psz)
 {
+	if (psz == nullptr)
+		CMyString();
+	m_pchData = new char[strlen(psz) + 1];
+	m_nDataLength = size();
+	m_nAllocLength = capacity();
+	m_iCounter++;
 }
 
 CMyString::CMyString(char ch, size_t repeat)
@@ -27,11 +38,18 @@ size_t CMyString::size() const
 
 size_t CMyString::capacity() const
 {
-	return size_t();
+	char *p = m_pchData;
+	while (*p != '\0')
+	{
+		p++;
+	}
+	return p - m_pchData;
 }
 
 void CMyString::clear()
 {
+	*m_pchData = '\0';
+	m_nDataLength = 0;
 }
 
 char CMyString::getat(size_t index) const
@@ -66,10 +84,10 @@ void CMyString::append(const char* psz, unsigned offset, unsigned count)
 
 CMyString& CMyString::operator=(const CMyString& str)
 {
-	// TODO: insert return statement here
+	return *this;
 }
 
 unsigned CMyString::objcount()
 {
-	return 0;
+	return m_iCounter;
 }

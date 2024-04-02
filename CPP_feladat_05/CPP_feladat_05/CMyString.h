@@ -29,17 +29,18 @@ public:
 												//nem csinál semmit
 												//ErrCount: count=0, ErrOutOfRange: ha offset
 												//nagyobb, mint a psz hossza
-	
-	
+
+
 	CMyString& operator=(const CMyString& str); //értékadás operátor. Üres str esetén üres lesz az
 												//objektum. Nem módosul a lefoglalt memória
 												//(m_nAllocLength) a cél területen, ha lehetséges!
 												//Saját maga esetén nem csinál semmit.
 
 	static unsigned objcount();					//objektum számlálót adja vissza, CSAK debug
-												//módban létezik, ha MYDEBUG definiálva van! 
-	private: char * m_pchData;					//felhasznált memóriára mutat, ahol string van
-	size_t m_nDataLength;						//hossz, ’ \0’ nélkül, size() 
-	size_t m_nAllocLength;						//ténylegesen lefoglalt memória, capacity() 
-	static unsigned m_iCounter;					//obj.számláló, CSAK debug módban létezik
+												//módban létezik, ha MYDEBUG definiálva van!	
+
+private: char* m_pchData;						//felhasznált memóriára mutat, ahol string van
+	   size_t m_nDataLength;					//hossz, ’ \0’ nélkül, size() 
+	   size_t m_nAllocLength;					//ténylegesen lefoglalt memória, capacity() 
+	   static unsigned m_iCounter;				//obj.számláló, CSAK debug módban létezik
 };

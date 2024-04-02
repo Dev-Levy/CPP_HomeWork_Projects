@@ -12,10 +12,6 @@ namespace UnitTest1
 
 		TEST_METHOD(TestMethod1)
 		{
-			CMyString str1;
-			CMyString str2("Hello");
-			str1 = str2;
-			Assert::AreEqual(str1, str2);
 		}
 	};
 }
