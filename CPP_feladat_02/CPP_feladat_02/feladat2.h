@@ -7,4 +7,4 @@ int ClearFifo(void);
 int GetFree(void);
 int GetSize(void);
 int SetSize(int s);
-//Oláh Levente - A3C6TV - feladat2 - V2
+//Oláh Levente - A3C6TV - feladat2 - V3 - Pótlás

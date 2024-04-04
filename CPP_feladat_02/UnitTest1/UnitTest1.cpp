@@ -5,10 +5,13 @@
 
 #define ARE_EQUAL(expVal, actVal) Assert::AreEqual(expVal, actVal, L"-", LINE_INFO())
 #define WRITE(s) Logger::WriteMessage((const char*)s)
+#define OK 0
+#define NOK -1
+
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-//Oláh Levente - A3C6TV - feladat2 - V2
+//Oláh Levente - A3C6TV - feladat2 - V3 - Pótlás
 
 namespace UnitTest1
 {
@@ -198,6 +201,64 @@ namespace UnitTest1
 			int asd2 = Push('0');
 			ARE_EQUAL(0, asd2);
 			DeleteFifo();
+		}
+
+		TEST_METHOD(NormalOperation)
+		{
+			int i, ret;
+
+			DeleteFifo();
+
+			int maxsize = 256;
+
+			ret = NewFifo(2 * maxsize);
+			ARE_EQUAL(OK, ret);
+
+			for (i = 0; i < maxsize; i++)
+			{
+				ret = Push(i);
+				ARE_EQUAL(OK, ret);
+			}
+
+			ARE_EQUAL(maxsize, GetFree());
+			ARE_EQUAL(2 * maxsize, GetSize());
+
+			for (i = 0; i < maxsize; i++)
+			{
+				ret = Pop();
+				ARE_EQUAL(i, ret);
+			}
+			DeleteFifo();
+		}
+		TEST_METHOD(ZeroNewFifo)
+		{
+			int ret = NewFifo(0);
+			ARE_EQUAL(NOK, ret);
+		}
+
+		TEST_METHOD(SetsizeTest)
+		{
+			int i, ret;
+			DeleteFifo();
+			int size = 50;
+			NewFifo(size);
+			for (i = 0; i < size; i++)
+			{
+				Push(i + 'a');
+			}
+			ret = SetSize(2 * size);
+			ARE_EQUAL(OK, ret);
+			ARE_EQUAL(2 * size, GetSize());
+			ARE_EQUAL(size, GetFree());
+
+			for (i = 0; i < size; i++)
+			{
+				ret = Pop();
+				ARE_EQUAL(i + 'a', ret);
+			}
+
+			ARE_EQUAL(2 * size, GetSize());
+			ARE_EQUAL(2 * size, GetFree());
 		}
 	};
 }

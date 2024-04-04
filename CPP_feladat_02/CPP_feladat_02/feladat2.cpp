@@ -1,7 +1,7 @@
 #include "feladat2.h"
 #include <malloc.h>
 
-//Oláh Levente - A3C6TV - feladat2 - V2
+//Oláh Levente - A3C6TV - feladat2 - V3 - Pótlás
 
 
 static char* fifoStartPtr = nullptr;
