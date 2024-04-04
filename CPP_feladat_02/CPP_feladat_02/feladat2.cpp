@@ -97,7 +97,7 @@ int GetSize(void) //done
 	if (fifoStartPtr == nullptr) // nincs FIFO
 		return -1;
 
-	static int length = fifoEndPtr - fifoStartPtr;
+	int length = fifoEndPtr - fifoStartPtr;
 
 	return length;
 }
