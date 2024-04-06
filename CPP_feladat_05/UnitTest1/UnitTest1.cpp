@@ -10,8 +10,20 @@ namespace UnitTest1
 	{
 	public:
 
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(CtorTest1)
 		{
+			CMyString a;
+			Assert::AreEqual((size_t)0, a.size());
+		}
+		TEST_METHOD(CtorTest2)
+		{
+			CMyString b("alma");
+			Assert::AreEqual((size_t)4, b.size());
+		}
+		TEST_METHOD(CtorTest3)
+		{
+			CMyString c('s', 2);
+			Assert::AreEqual((size_t)2, c.size());
 		}
 	};
 }

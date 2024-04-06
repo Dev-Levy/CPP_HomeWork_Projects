@@ -36,6 +36,19 @@ CMyString::CMyString(const char* psz)
 
 CMyString::CMyString(char ch, size_t repeat)
 {
+	if (ch == '\0')
+		throw CMyStringException(CMyStringException::ErrInvalidChar);
+	else if (repeat == 0)
+		throw CMyStringException(CMyStringException::ErrCount);
+
+	m_nDataLength = repeat;
+	m_nAllocLength = m_nDataLength + 1;
+	m_pchData = new char[m_nAllocLength];
+	for (size_t i = 0; i < m_nDataLength; i++)
+	{
+		m_pchData[i] = ch;
+	}
+	m_pchData[m_nDataLength] = '\0';
 }
 
 CMyString::CMyString(const CMyString& str)
