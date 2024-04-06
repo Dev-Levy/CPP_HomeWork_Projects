@@ -40,7 +40,7 @@ public:
 												//módban létezik, ha MYDEBUG definiálva van!	
 
 private: char* m_pchData;						//felhasznált memóriára mutat, ahol string van
-	   size_t m_nDataLength;					//hossz, ’ \0’ nélkül, size() 
+	   size_t m_nDataLength;					//hossz, '\0' nélkül, size() 
 	   size_t m_nAllocLength;					//ténylegesen lefoglalt memória, capacity() 
 	   static unsigned m_iCounter;				//obj.számláló, CSAK debug módban létezik
 };

@@ -1,0 +1,19 @@
+#pragma once
+#include <string>
+class CMyStringException
+{
+	public: 
+		CMyStringException(); //…? 
+		CMyStringException(const char * s);
+		~CMyStringException(); //…? 
+		const char * what(void) const;
+
+		static constexpr const char* ErrOutOfRange = "Hiba: index hiba!";
+		static constexpr const char* ErrInvalidChar = "Hiba: érvénytelen karakter!";
+		static constexpr const char* ErrCount = "Hiba: karakterek száma 0!";
+		static constexpr const char* ErrUnexpected = "Hiba: nem várt hiba!";
+
+		  //adattagok: kivétel okának tárolása, hiba üzenetek 
+	private:
+		std::string m_message;
+};

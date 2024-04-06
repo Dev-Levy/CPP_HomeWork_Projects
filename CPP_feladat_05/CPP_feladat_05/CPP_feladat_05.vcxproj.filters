@@ -21,9 +21,15 @@
     <ClCompile Include="CMyString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CMyStringException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMyString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMyStringException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
