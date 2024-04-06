@@ -3,9 +3,7 @@
 class CMyStringException
 {
 	public: 
-		CMyStringException(); //…? 
 		CMyStringException(const char * s);
-		~CMyStringException(); //…? 
 		const char * what(void) const;
 
 		static constexpr const char* ErrOutOfRange = "Hiba: index hiba!";

@@ -1,30 +1,37 @@
 #include "CMyString.h"
+#include "CMyStringException.h"
 #include <string.h>
 #include <string>
 #include <iostream>
 
+#ifndef NDEBUG
 unsigned CMyString::m_iCounter;
+#endif
 
 CMyString::CMyString()
 {
-	//m_pchData = ("").data; //üres string
 	m_nDataLength = 0;
-	m_nAllocLength = 0;
-	m_iCounter = 0;
+	m_nAllocLength = 1;
+	m_pchData = new char[m_nAllocLength];
+	m_pchData[0] = '\0';
 }
 
 CMyString::CMyString(const char* psz)
 {
 	if (psz == nullptr)
-		CMyString();
-	else 
 	{
-		m_pchData = new char[strlen(psz) + 1];
+		m_nDataLength = 0;
+		m_nAllocLength = 1;
+		m_pchData = new char[m_nAllocLength];
+		m_pchData[0] = '\0';
 	}
-		
-	m_nDataLength = size();
-	m_nAllocLength = capacity();
-	m_iCounter++;
+	else
+	{
+		m_nDataLength = strlen(psz);
+		m_nAllocLength = m_nDataLength + 1;
+		m_pchData = new char[m_nAllocLength];
+		strcpy_s(m_pchData, m_nAllocLength, psz);
+	}
 }
 
 CMyString::CMyString(char ch, size_t repeat)
@@ -49,11 +56,12 @@ size_t CMyString::size() const
 size_t CMyString::capacity() const
 {
 	char* p = m_pchData;
-	while (*p != '\0')
+	while (*p != '\0') 
 	{
 		p++;
 	}
-	return p - m_pchData;
+
+	return p - m_pchData + 1;
 }
 
 void CMyString::clear()
@@ -65,7 +73,7 @@ void CMyString::clear()
 char CMyString::getat(size_t index) const
 {
 	if (index > size())
-		//throw asdasdasd;
+		throw CMyStringException(CMyStringException::ErrOutOfRange);
 
 
 	return m_pchData[index];
@@ -74,10 +82,9 @@ char CMyString::getat(size_t index) const
 void CMyString::setat(size_t index, char ch)
 {
 	if (index > size())
-		//throw asdasdasd;
-		;
+		throw CMyStringException(CMyStringException::ErrOutOfRange);
 	else if (ch == '\0')
-		//throw asdasdasd;
+		throw CMyStringException(CMyStringException::ErrInvalidChar);
 
 	m_pchData[index] = ch;
 }
@@ -97,30 +104,41 @@ void CMyString::display() const
 
 void CMyString::shrink_to_fit()
 {
+	char* p = new char[size() + 1];
+	delete[] m_pchData;
+	m_pchData = p;
 }
 
 void CMyString::reverse()
 {
-	char temp;
-	for (size_t i = 0; i < size(); i++)
+	int sizeOfString = size();
+	for (int i = 0; i < sizeOfString / 2; i++)
 	{
-		temp = m_pchData[i];
-		m_pchData[i] = m_pchData[size() - i];
-		m_pchData[size() - i] = temp;
+		char temp = m_pchData[i];
+		m_pchData[i] = m_pchData[sizeOfString - i - 1];
+		m_pchData[sizeOfString - i - 1] = temp;
 	}
 }
 
 void CMyString::append(const char* psz, unsigned offset, unsigned count)
 {
+	if (psz != nullptr)
+	{
+
+	}
 }
 
 CMyString& CMyString::operator=(const CMyString& str)
 {
-	return *this;
+	if (this == &str)
+		return *this;
+
+
 }
 
+#ifndef NDEBUG
 unsigned CMyString::objcount()
 {
 	return m_iCounter;
 }
-//done
+#endif
