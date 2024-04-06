@@ -10,28 +10,44 @@ unsigned CMyString::m_iCounter;
 
 CMyString::CMyString()
 {
-	m_nDataLength = 0;
-	m_nAllocLength = 1;
-	m_pchData = new char[m_nAllocLength];
-	m_pchData[0] = '\0';
-}
-
-CMyString::CMyString(const char* psz)
-{
-	if (psz == nullptr)
+	try
 	{
 		m_nDataLength = 0;
 		m_nAllocLength = 1;
 		m_pchData = new char[m_nAllocLength];
 		m_pchData[0] = '\0';
 	}
-	else
+	catch (const std::bad_alloc&)
 	{
-		m_nDataLength = strlen(psz);
-		m_nAllocLength = m_nDataLength + 1;
-		m_pchData = new char[m_nAllocLength];
-		strcpy_s(m_pchData, m_nAllocLength, psz);
+		throw;
 	}
+	
+}
+
+CMyString::CMyString(const char* psz)
+{
+	try
+	{
+		if (psz == nullptr)
+		{
+			m_nDataLength = 0;
+			m_nAllocLength = 1;
+			m_pchData = new char[m_nAllocLength];
+			m_pchData[0] = '\0';
+		}
+		else
+		{
+			m_nDataLength = strlen(psz);
+			m_nAllocLength = m_nDataLength + 1;
+			m_pchData = new char[m_nAllocLength];
+			strcpy_s(m_pchData, m_nAllocLength, psz);
+		}
+	}
+	catch (const std::bad_alloc&)
+	{
+		throw;
+	}
+	
 }
 
 CMyString::CMyString(char ch, size_t repeat)
@@ -41,18 +57,48 @@ CMyString::CMyString(char ch, size_t repeat)
 	else if (repeat == 0)
 		throw CMyStringException(CMyStringException::ErrCount);
 
-	m_nDataLength = repeat;
-	m_nAllocLength = m_nDataLength + 1;
-	m_pchData = new char[m_nAllocLength];
-	for (size_t i = 0; i < m_nDataLength; i++)
+	try
 	{
-		m_pchData[i] = ch;
+		m_nDataLength = repeat;
+		m_nAllocLength = m_nDataLength + 1;
+		m_pchData = new char[m_nAllocLength];
+		for (size_t i = 0; i < m_nDataLength; i++)
+		{
+			m_pchData[i] = ch;
+		}
+		m_pchData[m_nDataLength] = '\0';
 	}
-	m_pchData[m_nDataLength] = '\0';
+	catch (const std::bad_alloc&)
+	{
+		throw;
+	}
+	
 }
 
-CMyString::CMyString(const CMyString& str)
+CMyString::CMyString(const CMyString& str)	
 {
+	try
+	{
+		if (str.m_nDataLength == 0)
+		{
+			m_nDataLength = 0;
+			m_nAllocLength = 1;
+			m_pchData = new char[m_nAllocLength];
+			m_pchData[0] = '\0';
+		}
+		else
+		{
+			m_nDataLength = str.m_nDataLength;
+			m_nAllocLength = m_nDataLength + 1;
+			m_pchData = new char[m_nAllocLength];
+			strcpy_s(m_pchData, m_nAllocLength, str.m_pchData);
+		}
+	}
+	catch (const std::bad_alloc&)
+	{
+		throw;
+	}
+	
 }
 
 CMyString::~CMyString()
@@ -63,18 +109,12 @@ CMyString::~CMyString()
 
 size_t CMyString::size() const
 {
-	return capacity() - 1;
+	return m_nDataLength;
 }
 
 size_t CMyString::capacity() const
 {
-	char* p = m_pchData;
-	while (*p != '\0') 
-	{
-		p++;
-	}
-
-	return p - m_pchData + 1;
+	return m_nAllocLength;
 }
 
 void CMyString::clear()
@@ -87,8 +127,6 @@ char CMyString::getat(size_t index) const
 {
 	if (index > size())
 		throw CMyStringException(CMyStringException::ErrOutOfRange);
-
-
 	return m_pchData[index];
 }
 
@@ -145,8 +183,25 @@ CMyString& CMyString::operator=(const CMyString& str)
 {
 	if (this == &str)
 		return *this;
-
-
+	else if(str.m_nDataLength == 0)
+	{
+		clear();
+		return *this;
+	}
+	else if (m_nAllocLength > str.m_nAllocLength)
+	{
+		m_nDataLength = str.m_nDataLength;
+		strcpy_s(m_pchData, sizeof(m_pchData), str.m_pchData);
+		return *this;
+	}
+	else
+	{
+		delete[] m_pchData;
+		m_nDataLength = str.m_nDataLength;
+		m_nAllocLength = m_nDataLength + 1;
+		m_pchData = new char[m_nAllocLength];
+		strcpy_s(m_pchData, m_nAllocLength, str.m_pchData);
+	}
 }
 
 #ifndef NDEBUG

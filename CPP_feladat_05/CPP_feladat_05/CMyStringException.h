@@ -11,7 +11,6 @@ class CMyStringException
 		static constexpr const char* ErrCount = "Hiba: karakterek száma 0!";
 		static constexpr const char* ErrUnexpected = "Hiba: nem várt hiba!";
 
-		  //adattagok: kivétel okának tárolása, hiba üzenetek 
 	private:
 		std::string m_message;
 };
