@@ -7,7 +7,7 @@
 //
 //	 FELADAT: 5
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 class CMyStringException
 {
 	public: 

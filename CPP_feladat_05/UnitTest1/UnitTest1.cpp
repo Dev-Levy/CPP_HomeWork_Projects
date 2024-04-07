@@ -5,17 +5,13 @@
 #include "../CPP_feladat_05/CMyStringException.h"
 
 
-#ifndef MYDEBUG
-#define MYDEBUG 1
-#endif // !MYDEBUG
-
 //	Oláh Levente
 //
 //	  A3C6TV
 //
 //	 FELADAT: 5
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

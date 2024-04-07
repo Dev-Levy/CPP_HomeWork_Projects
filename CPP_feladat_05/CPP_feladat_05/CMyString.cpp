@@ -10,7 +10,7 @@
 //
 //	 FELADAT: 5
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 
 #ifdef MYDEBUG
