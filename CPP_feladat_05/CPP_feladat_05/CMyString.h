@@ -19,6 +19,7 @@ public:
 	~CMyString();								//destruktor, delete használata ! 
 	size_t size() const;						//string hossz lekérdezése (m_nDataLength) 
 	size_t capacity() const;					//ténylegesen lefoglalt memória mérete (m_nAllocLength)
+	const char* c_str() const;					//visszaadja a stringet, mint ’\0’-ra végzõdõ char tömb
 
 	void clear();								//törli a stringet, de a lefoglalt memória változatlan marad
 	char getat(size_t index) const;				//karakter lekérdezése , ErrOutOfRange: index hiba
@@ -44,14 +45,14 @@ public:
 												//objektum. Nem módosul a lefoglalt memória
 												//(m_nAllocLength) a cél területen, ha lehetséges!
 												//Saját maga esetén nem csinál semmit.
-	#ifndef NDEBUG
+	#ifdef MYDEBUG
 	static unsigned objcount();					//objektum számlálót adja vissza, CSAK debug
 	#endif										//módban létezik, ha MYDEBUG definiálva van!	
 
 private: char* m_pchData;						//felhasznált memóriára mutat, ahol string van
 	   size_t m_nDataLength;					//hossz, '\0' nélkül, size() 
 	   size_t m_nAllocLength;					//ténylegesen lefoglalt memória, capacity() 
-	#ifndef MYDEBUG
+	#ifdef MYDEBUG
 	   static unsigned m_iCounter;				//obj.számláló, CSAK debug módban létezik
 	#endif
 };

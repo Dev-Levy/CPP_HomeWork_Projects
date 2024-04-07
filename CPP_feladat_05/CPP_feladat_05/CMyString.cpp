@@ -13,7 +13,7 @@
 //	 VERZIÓ: 1
 
 
-#ifndef MYDEBUG
+#ifdef MYDEBUG
 unsigned CMyString::m_iCounter = 0;
 #endif
 
@@ -25,7 +25,7 @@ CMyString::CMyString()
 		m_nAllocLength = 1;
 		m_pchData = new char[m_nAllocLength];
 		m_pchData[0] = '\0';
-#ifndef MYDEBUG
+#ifdef MYDEBUG
 		m_iCounter++;
 #endif
 	}
@@ -46,7 +46,7 @@ CMyString::CMyString(const char* psz)
 			m_nAllocLength = 1;
 			m_pchData = new char[m_nAllocLength];
 			m_pchData[0] = '\0';
-#ifndef MYDEBUG
+#ifdef MYDEBUG
 			m_iCounter++;
 #endif
 		}
@@ -56,7 +56,7 @@ CMyString::CMyString(const char* psz)
 			m_nAllocLength = m_nDataLength + 1;
 			m_pchData = new char[m_nAllocLength];
 			strcpy_s(m_pchData, m_nAllocLength, psz);
-#ifndef MYDEBUG
+#ifdef MYDEBUG
 			m_iCounter++;
 #endif
 		}
@@ -85,7 +85,7 @@ CMyString::CMyString(char ch, size_t repeat)
 			m_pchData[i] = ch;
 		}
 		m_pchData[m_nDataLength] = '\0';
-#ifndef MYDEBUG
+#ifdef MYDEBUG
 		m_iCounter++;
 #endif
 	}
@@ -107,7 +107,9 @@ CMyString::CMyString(const CMyString& str)
 			m_nAllocLength = 1;
 			m_pchData = new char[m_nAllocLength];
 			m_pchData[0] = '\0';
+#ifdef MYDEBUG
 			m_iCounter++;
+#endif
 			//*this = CMyString(str.m_pchData); //??
 		}
 		else
@@ -117,7 +119,9 @@ CMyString::CMyString(const CMyString& str)
 			m_nAllocLength = m_nDataLength + 1;
 			m_pchData = new char[m_nAllocLength];
 			strcpy_s(m_pchData, m_nAllocLength, str.m_pchData);
+#ifdef MYDEBUG
 			m_iCounter++;
+#endif
 			//*this = CMyString(str.m_pchData); //??
 		}
 	}
@@ -131,7 +135,9 @@ CMyString::CMyString(const CMyString& str)
 CMyString::~CMyString()
 {
 	delete[] m_pchData;
-	m_iCounter--;
+#ifdef MYDEBUG
+	m_iCounter++;
+#endif
 }
 
 size_t CMyString::size() const
@@ -142,6 +148,11 @@ size_t CMyString::size() const
 size_t CMyString::capacity() const
 {
 	return m_nAllocLength;
+}
+
+const char* CMyString::c_str() const
+{
+	return m_pchData;
 }
 
 void CMyString::clear()
@@ -202,11 +213,13 @@ void CMyString::reverse()
 
 void CMyString::append(const char* psz, unsigned offset, unsigned count)
 {
-	if (count == UINT32_MAX)
-		count = strlen(psz);
+	
 
 	if (psz != nullptr /*és nem saját maga*/)
 	{
+		if (count == UINT32_MAX)
+			count = strlen(psz);
+
 		if (count == 0)
 			throw CMyStringException(CMyStringException::ErrCount);
 		else if (offset > strlen(psz))
@@ -261,7 +274,7 @@ CMyString& CMyString::operator=(const CMyString& str)
 	}
 }
 
-#ifndef MYDEBUG
+#ifdef MYDEBUG
 unsigned CMyString::objcount()
 {
 	return m_iCounter;
