@@ -1,4 +1,13 @@
 #pragma once
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 5
+//
+//	 VERZIÓ: 1
+
 class CMyString {
 public:
 	CMyString();								//def. constr 
@@ -42,7 +51,7 @@ public:
 private: char* m_pchData;						//felhasznált memóriára mutat, ahol string van
 	   size_t m_nDataLength;					//hossz, '\0' nélkül, size() 
 	   size_t m_nAllocLength;					//ténylegesen lefoglalt memória, capacity() 
-	#ifndef NDEBUG
+	#ifndef MYDEBUG
 	   static unsigned m_iCounter;				//obj.számláló, CSAK debug módban létezik
 	#endif
 };

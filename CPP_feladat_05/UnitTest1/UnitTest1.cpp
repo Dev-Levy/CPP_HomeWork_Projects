@@ -1,67 +1,16 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-extern class CMyString {
-public:
-	CMyString();								//def. constr 
-	CMyString(const char* psz);					//string (’\0’-ra végzõdõ char tömb) a bement. Ha nullptr, üres string jön létre
-	CMyString(char ch, size_t repeat = 1);		//ErrCount: repeat=0, ErrInvalidChar: ch=’\0’ 
-	CMyString(const CMyString& str);			//copy construktor, üres str esetén üres string lesz.
-	//m_nAllocLength nem az str.m_nAllocLength-hez igazodik,
-	//hanem az str.m_nDataLength értékéhez! 
-	~CMyString();								//destruktor, delete használata ! 
-	size_t size() const;						//string hossz lekérdezése (m_nDataLength) 
-	size_t capacity() const;					//ténylegesen lefoglalt memória mérete (m_nAllocLength)
+#include <iostream>
+#include "../CPP_feladat_05/CMyString.h"
+#include "../CPP_feladat_05/CMyStringException.h"
 
-	void clear();								//törli a stringet, de a lefoglalt memória változatlan marad
-	char getat(size_t index) const;				//karakter lekérdezése , ErrOutOfRange: index hiba
-	void setat(size_t index, char ch);			//karakter beállítása , ErrOutOfRange: index hiba, ErrInvalidChar: ch=’\0
-	bool empty() const;							//igaz, ha üres a string
-	void display() const;						//kiírja a stringet a cout-ra, üres string esetén nem ír ki semmit 
-	void shrink_to_fit();						//megszünteti a karakterlánc felesleges memória kapacitását 
-	void reverse();
-
-	void append(const char* psz,				//hozzáfûzendõ string (’\0’-ra végzõdõ char tömb)
-		unsigned offset = 0,					//psz melyik pozíciójától fûzze hozzá
-		unsigned count = ~0);					//hány darab karaktert fûzzön hozzá
-	//Hozzáfûzi a stringet a paraméterek szerint. Nem
-	//módosul a lefoglalt memória (m_nAllocLength) a cél
-	//területen, ha lehetséges! Üres objektumhoz is
-	//hozzáfûzi. psz = nullptr vagy saját maga esetén
-	//nem csinál semmit
-	//ErrCount: count=0, ErrOutOfRange: ha offset
-	//nagyobb, mint a psz hossza
-
-
-	CMyString& operator=(const CMyString& str); //értékadás operátor. Üres str esetén üres lesz az
-	//objektum. Nem módosul a lefoglalt memória
-	//(m_nAllocLength) a cél területen, ha lehetséges!
-	//Saját maga esetén nem csinál semmit.
-#ifndef NDEBUG
-	static unsigned objcount();					//objektum számlálót adja vissza, CSAK debug
-#endif										//módban létezik, ha MYDEBUG definiálva van!	
-
-private: char* m_pchData;						//felhasznált memóriára mutat, ahol string van
-	   size_t m_nDataLength;					//hossz, '\0' nélkül, size() 
-	   size_t m_nAllocLength;					//ténylegesen lefoglalt memória, capacity() 
-#ifndef NDEBUG
-	   static unsigned m_iCounter;				//obj.számláló, CSAK debug módban létezik
-#endif
-};
-extern class CMyStringException 
-{
-public:
-	CMyStringException(const char* s);
-	const char* what(void) const;
-
-	static constexpr const char* ErrOutOfRange = "Hiba: index hiba!";
-	static constexpr const char* ErrInvalidChar = "Hiba: érvénytelen karakter!";
-	static constexpr const char* ErrCount = "Hiba: karakterek száma 0!";
-	static constexpr const char* ErrUnexpected = "Hiba: nem várt hiba!";
-
-private:
-	std::string m_message;
-};
-
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 5
+//
+//	 VERZIÓ: 1
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -70,6 +19,7 @@ namespace UnitTest1
 	TEST_CLASS(UnitTest1)
 	{
 	public:
+
 
 		TEST_METHOD(CtorTest1)
 		{
@@ -97,6 +47,23 @@ namespace UnitTest1
 			CMyString a;
 			CMyString b(a);
 			Assert::AreEqual((size_t)0, b.size());
+		}
+		TEST_METHOD(CapacityTest1)
+		{
+			CMyString a("alma");
+			Assert::AreEqual((size_t)5, a.capacity());
+		}
+		TEST_METHOD(CapacityTest2)
+		{
+			CMyString a('o', 99);
+			Assert::AreEqual((size_t)100, a.capacity());
+		}
+		TEST_METHOD(ClearTest1)
+		{
+			CMyString a("alma");
+			a.clear();
+			Assert::AreEqual((size_t)0, a.size());
+			Assert::AreEqual((size_t)5, a.capacity());
 		}
 		TEST_METHOD(GetatTest1)
 		{
@@ -136,12 +103,248 @@ namespace UnitTest1
 			CMyString a("");
 			Assert::AreEqual(true, a.empty());
 		}
-		TEST_METHOD(OperatorTest1)
+		TEST_METHOD(DisplayTest)
+		{
+			std::stringstream buffer;
+			std::streambuf* old = std::cout.rdbuf(buffer.rdbuf());
+
+			auto asd = CMyString("asdasd");
+			asd.display();
+
+			std::string str = buffer.str();
+
+			Assert::AreEqual("asdasd", str.c_str());
+
+			std::cout.rdbuf(old);
+		}
+		TEST_METHOD(ShrinkTest1)
 		{
 			CMyString a("alma");
-			CMyString b("kör");
+			a.clear();
+			a.shrink_to_fit();
+			Assert::AreEqual((size_t)0, a.size());
+			Assert::AreEqual((size_t)1, a.capacity());
+		}
+		TEST_METHOD(ShrinkTest2)
+		{
+			CMyString a("OláhLevente");
+			a.clear();
+			a.append("Levente");
+			a.shrink_to_fit();
+			Assert::AreEqual((size_t)7, a.size());
+			Assert::AreEqual((size_t)8, a.capacity());
+		}
+		TEST_METHOD(ReverseTest1)
+		{
+			CMyString a("asd");
+
+			Assert::AreEqual('a', a.getat(0));
+			Assert::AreEqual('s', a.getat(1));
+			Assert::AreEqual('d', a.getat(2));
+
+			a.reverse();
+
+			Assert::AreEqual('d', a.getat(0));
+			Assert::AreEqual('s', a.getat(1));
+			Assert::AreEqual('a', a.getat(2));
+		}
+		TEST_METHOD(ReverseTest2)
+		{
+			CMyString a("alma");
+			a.clear();
+			a.append("korte");
+
+			Assert::AreEqual('k', a.getat(0));
+			Assert::AreEqual('o', a.getat(1));
+			Assert::AreEqual('r', a.getat(2));
+			Assert::AreEqual('t', a.getat(3));
+			Assert::AreEqual('e', a.getat(4));
+
+			a.reverse();
+
+			Assert::AreEqual('e', a.getat(0));
+			Assert::AreEqual('t', a.getat(1));
+			Assert::AreEqual('r', a.getat(2));
+			Assert::AreEqual('o', a.getat(3));
+			Assert::AreEqual('k', a.getat(4));
+		}
+		TEST_METHOD(AppendTest1)
+		{
+			CMyString a("a");
+			a.append("b");
+
+			Assert::AreEqual('a', a.getat(0));
+			Assert::AreEqual('b', a.getat(1));
+		}
+		TEST_METHOD(AppendCountTest1)
+		{
+			CMyString a("a");
+			a.append("b", 0, 1);
+
+			Assert::AreEqual('a', a.getat(0));
+			Assert::AreEqual('b', a.getat(1));
+		}
+		TEST_METHOD(AppendCountTest2)
+		{
+			try
+			{
+				CMyString a("al");
+				a.append("gorilla", 0, 2);
+
+				Assert::AreEqual('a', a.getat(0));
+				Assert::AreEqual('l', a.getat(1));
+				Assert::AreEqual('g', a.getat(2));
+				Assert::AreEqual('o', a.getat(3));
+			}
+			catch (CMyStringException& e)
+			{
+				Assert::AreEqual(CMyStringException::ErrOutOfRange, e.what());
+			}
+		}
+		TEST_METHOD(AppendCountTest3)
+		{
+			try
+			{
+				CMyString a("al");
+				a.append("gorilla", 0, 0);
+
+				Assert::AreEqual('a', a.getat(0));
+				Assert::AreEqual('l', a.getat(1));
+				Assert::AreEqual('g', a.getat(2));
+				Assert::AreEqual('o', a.getat(3));
+				a.getat(4);
+			}
+			catch (CMyStringException& e)
+			{
+				Assert::AreEqual(CMyStringException::ErrCount, e.what());
+			}
+		}
+		TEST_METHOD(AppendOffsetTest1)
+		{
+			try
+			{
+				CMyString a("al");
+				a.append("illa", 2, 1);
+
+				Assert::AreEqual('a', a.getat(0));
+				Assert::AreEqual('l', a.getat(1));
+				Assert::AreEqual('l', a.getat(2));
+				a.getat(3);
+			}
+			catch (CMyStringException& e)
+			{
+				Assert::AreEqual(CMyStringException::ErrOutOfRange, e.what());
+			}
+		}
+		TEST_METHOD(AppendOffsetTest2)
+		{
+			try
+			{
+				CMyString a("al");
+				a.append("gorilla", 2, 3);
+
+				Assert::AreEqual('a', a.getat(0));
+				Assert::AreEqual('l', a.getat(1));
+				Assert::AreEqual('r', a.getat(2));
+				Assert::AreEqual('i', a.getat(3));
+				Assert::AreEqual('l', a.getat(4));
+				Assert::AreEqual('l', a.getat(5));
+				a.getat(6);
+			}
+			catch (CMyStringException& e)
+			{
+				Assert::AreEqual(CMyStringException::ErrOutOfRange, e.what());
+			}
+
+		};
+		TEST_METHOD(OperatorTest1) 
+		{
+			CMyString a("alma");
+			CMyString b("korte");
 			a = b;
-			Assert::AreEqual((size_t)3, a.size());
+
+			Assert::AreEqual('k', a.getat(0));
+			Assert::AreEqual('o', a.getat(1));
+			Assert::AreEqual('r', a.getat(2));
+			Assert::AreEqual('t', a.getat(3));
+			Assert::AreEqual('e', a.getat(4));
+		}
+		TEST_METHOD(OperatorTest2)
+		{
+			try
+			{
+				CMyString a("alma");
+				CMyString b;
+				a = b;
+
+				Assert::AreEqual((size_t)0, a.size());
+				a.getat(1);
+			}
+			catch (CMyStringException& e)
+			{
+				Assert::AreEqual(CMyStringException::ErrOutOfRange, e.what());
+			}
+		}
+		TEST_METHOD(OperatorTest3)
+		{
+			CMyString a("alma");
+			a = a;
+
+			Assert::AreEqual('a', a.getat(0));
+			Assert::AreEqual('l', a.getat(1));
+			Assert::AreEqual('m', a.getat(2));
+			Assert::AreEqual('a', a.getat(3));
+		}
+		TEST_METHOD(OperatorTest4)
+		{
+			CMyString a("alma");
+			CMyString b("korte");
+			CMyString c("narants");
+			a = b = c;
+
+			Assert::AreEqual('n', a.getat(0));
+			Assert::AreEqual('a', a.getat(1));
+			Assert::AreEqual('r', a.getat(2));
+			Assert::AreEqual('a', a.getat(3));
+			Assert::AreEqual('n', a.getat(4));
+			Assert::AreEqual('t', a.getat(5));
+			Assert::AreEqual('s', a.getat(6));
+		}
+		TEST_METHOD(OperatorTest5)
+		{
+			CMyString a("alma");
+			CMyString b("korte");
+			CMyString c("narants");
+			a = b = c = a;
+
+			Assert::AreEqual('a', a.getat(0));
+			Assert::AreEqual('l', a.getat(1));
+			Assert::AreEqual('m', a.getat(2));
+			Assert::AreEqual('a', a.getat(3));
+		}
+		TEST_METHOD(ObjCountTest1)
+		{
+			CMyString a("alma");
+			CMyString b("korte");
+			CMyString c("narants");
+
+			Assert::AreEqual((unsigned)3, CMyString::objcount());
+		}
+		TEST_METHOD(ObjCountTest2)
+		{
+			Assert::AreEqual((unsigned)0, CMyString::objcount());
+		}
+
+		TEST_METHOD(bad_allocTest)
+		{
+			try
+			{
+				CMyString a('a', UINT64_MAX-1);
+			}
+			catch (CMyStringException& e)
+			{
+				Assert::AreEqual(CMyStringException::ErrUnexpected, e.what());
+			}
 		}
 	};
-}
+ }

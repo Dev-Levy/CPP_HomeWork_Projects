@@ -4,8 +4,17 @@
 #include <string>
 #include <iostream>
 
-#ifndef NDEBUG
-unsigned CMyString::m_iCounter;
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 5
+//
+//	 VERZIÓ: 1
+
+
+#ifndef MYDEBUG
+unsigned CMyString::m_iCounter = 0;
 #endif
 
 CMyString::CMyString()
@@ -16,7 +25,9 @@ CMyString::CMyString()
 		m_nAllocLength = 1;
 		m_pchData = new char[m_nAllocLength];
 		m_pchData[0] = '\0';
+#ifndef MYDEBUG
 		m_iCounter++;
+#endif
 	}
 	catch (const std::bad_alloc&)
 	{
@@ -35,7 +46,9 @@ CMyString::CMyString(const char* psz)
 			m_nAllocLength = 1;
 			m_pchData = new char[m_nAllocLength];
 			m_pchData[0] = '\0';
+#ifndef MYDEBUG
 			m_iCounter++;
+#endif
 		}
 		else
 		{
@@ -43,6 +56,9 @@ CMyString::CMyString(const char* psz)
 			m_nAllocLength = m_nDataLength + 1;
 			m_pchData = new char[m_nAllocLength];
 			strcpy_s(m_pchData, m_nAllocLength, psz);
+#ifndef MYDEBUG
+			m_iCounter++;
+#endif
 		}
 	}
 	catch (const std::bad_alloc&)
@@ -69,7 +85,9 @@ CMyString::CMyString(char ch, size_t repeat)
 			m_pchData[i] = ch;
 		}
 		m_pchData[m_nDataLength] = '\0';
+#ifndef MYDEBUG
 		m_iCounter++;
+#endif
 	}
 	catch (const std::bad_alloc&)
 	{
@@ -84,23 +102,23 @@ CMyString::CMyString(const CMyString& str)
 	{
 		if (str.m_nDataLength == 0)
 		{
-			/*delete[] m_pchData;
+			delete[] m_pchData;
 			m_nDataLength = 0;
 			m_nAllocLength = 1;
 			m_pchData = new char[m_nAllocLength];
 			m_pchData[0] = '\0';
-			m_iCounter++;*/
-			*this = CMyString(str.m_pchData); //??
+			m_iCounter++;
+			//*this = CMyString(str.m_pchData); //??
 		}
 		else
 		{
-			/*delete[] m_pchData;
+			delete[] m_pchData;
 			m_nDataLength = str.m_nDataLength;
 			m_nAllocLength = m_nDataLength + 1;
 			m_pchData = new char[m_nAllocLength];
 			strcpy_s(m_pchData, m_nAllocLength, str.m_pchData);
-			m_iCounter++;*/
-			*this = CMyString(str.m_pchData); //??
+			m_iCounter++;
+			//*this = CMyString(str.m_pchData); //??
 		}
 	}
 	catch (const std::bad_alloc&)
@@ -134,14 +152,14 @@ void CMyString::clear()
 
 char CMyString::getat(size_t index) const
 {
-	if (index > size())
+	if (index >= size())
 		throw CMyStringException(CMyStringException::ErrOutOfRange);
 	return m_pchData[index];
 }
 
 void CMyString::setat(size_t index, char ch)
 {
-	if (index > size())
+	if (index >= size())
 		throw CMyStringException(CMyStringException::ErrOutOfRange);
 	else if (ch == '\0')
 		throw CMyStringException(CMyStringException::ErrInvalidChar);
@@ -193,9 +211,11 @@ void CMyString::append(const char* psz, unsigned offset, unsigned count)
 			throw CMyStringException(CMyStringException::ErrCount);
 		else if (offset > strlen(psz))
 			throw CMyStringException(CMyStringException::ErrOutOfRange);
+		else if (count > strlen(psz))
+			throw CMyStringException(CMyStringException::ErrUnexpected);
 		
 		//ha belefér
-		if (m_nDataLength + count <= m_nAllocLength)
+		if (m_nDataLength + count < m_nAllocLength)
 		{
 			strncat_s(m_pchData, m_nAllocLength, psz + offset, count);
 			m_nDataLength += count;
@@ -237,10 +257,11 @@ CMyString& CMyString::operator=(const CMyString& str)
 		m_nAllocLength = m_nDataLength + 1;
 		m_pchData = new char[m_nAllocLength];
 		strcpy_s(m_pchData, m_nAllocLength, str.m_pchData);
+		return *this;
 	}
 }
 
-#ifndef NDEBUG
+#ifndef MYDEBUG
 unsigned CMyString::objcount()
 {
 	return m_iCounter;

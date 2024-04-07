@@ -1,5 +1,13 @@
 #pragma once
 #include <string>
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 5
+//
+//	 VERZIÓ: 1
 class CMyStringException
 {
 	public: 
