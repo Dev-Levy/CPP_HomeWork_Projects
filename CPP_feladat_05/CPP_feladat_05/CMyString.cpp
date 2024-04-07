@@ -136,7 +136,7 @@ CMyString::~CMyString()
 {
 	delete[] m_pchData;
 #ifdef MYDEBUG
-	m_iCounter++;
+	m_iCounter--;
 #endif
 }
 
