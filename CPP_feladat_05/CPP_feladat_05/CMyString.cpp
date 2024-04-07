@@ -155,7 +155,9 @@ void CMyString::display() const
 
 void CMyString::shrink_to_fit()
 {
-	char* p = new char[size() + 1];
+	m_nAllocLength = m_nDataLength + 1;
+	char* p = new char[m_nAllocLength];
+	strcpy_s(p, m_nAllocLength, m_pchData);
 	delete[] m_pchData;
 	m_pchData = p;
 }
@@ -173,8 +175,33 @@ void CMyString::reverse()
 
 void CMyString::append(const char* psz, unsigned offset, unsigned count)
 {
-	if (psz != nullptr)
+	if (count == UINT32_MAX)
+		count = strlen(psz);
+
+	if (psz != nullptr /*és nem saját maga*/)
 	{
+		if (count == 0)
+			throw CMyStringException(CMyStringException::ErrCount);
+		else if (offset > strlen(psz))
+			throw CMyStringException(CMyStringException::ErrOutOfRange);
+		
+		//ha belefér
+		if (m_nDataLength + count <= m_nAllocLength)
+		{
+			strncat_s(m_pchData, m_nAllocLength, psz + offset, count);
+			m_nDataLength += count;
+		}
+		//ha nem fér bele
+		else 
+		{
+			char* p = new char[m_nDataLength + count + 1];
+			strcpy_s(p, m_nDataLength + count + 1, m_pchData);
+			strncat_s(p, m_nDataLength + count + 1, psz + offset, count);
+			delete[] m_pchData;
+			m_pchData = p;
+			m_nDataLength += count;
+			m_nAllocLength = m_nDataLength + 1;
+		}
 
 	}
 }
@@ -188,7 +215,7 @@ CMyString& CMyString::operator=(const CMyString& str)
 		clear();
 		return *this;
 	}
-	else if (m_nAllocLength > str.m_nAllocLength)
+	else if (str.m_nAllocLength < m_nAllocLength)
 	{
 		m_nDataLength = str.m_nDataLength;
 		strcpy_s(m_pchData, sizeof(m_pchData), str.m_pchData);

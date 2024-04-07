@@ -1,8 +1,14 @@
 #include "CMyString.h"
 int main() {
 
-	CMyString str1("asd");
-	str1.reverse();
-	str1.display();
+	CMyString Fruits("AlmaKörteNarants");
+	CMyString Name("Péter");
+	Fruits = Name;
+	Fruits.append("Körte");
+
+	Fruits.shrink_to_fit();
+
+	Fruits.append("Körte");
+	Fruits.append("Körte");
 	return 0;
 }
