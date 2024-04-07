@@ -16,10 +16,11 @@ CMyString::CMyString()
 		m_nAllocLength = 1;
 		m_pchData = new char[m_nAllocLength];
 		m_pchData[0] = '\0';
+		m_iCounter++;
 	}
 	catch (const std::bad_alloc&)
 	{
-		throw;
+		throw CMyStringException(CMyStringException::ErrUnexpected);
 	}
 	
 }
@@ -34,6 +35,7 @@ CMyString::CMyString(const char* psz)
 			m_nAllocLength = 1;
 			m_pchData = new char[m_nAllocLength];
 			m_pchData[0] = '\0';
+			m_iCounter++;
 		}
 		else
 		{
@@ -45,7 +47,7 @@ CMyString::CMyString(const char* psz)
 	}
 	catch (const std::bad_alloc&)
 	{
-		throw;
+		throw CMyStringException(CMyStringException::ErrUnexpected);
 	}
 	
 }
@@ -67,10 +69,11 @@ CMyString::CMyString(char ch, size_t repeat)
 			m_pchData[i] = ch;
 		}
 		m_pchData[m_nDataLength] = '\0';
+		m_iCounter++;
 	}
 	catch (const std::bad_alloc&)
 	{
-		throw;
+		throw CMyStringException(CMyStringException::ErrUnexpected);
 	}
 	
 }
@@ -81,17 +84,23 @@ CMyString::CMyString(const CMyString& str)
 	{
 		if (str.m_nDataLength == 0)
 		{
+			/*delete[] m_pchData;
 			m_nDataLength = 0;
 			m_nAllocLength = 1;
 			m_pchData = new char[m_nAllocLength];
 			m_pchData[0] = '\0';
+			m_iCounter++;*/
+			*this = CMyString(str.m_pchData); //??
 		}
 		else
 		{
+			/*delete[] m_pchData;
 			m_nDataLength = str.m_nDataLength;
 			m_nAllocLength = m_nDataLength + 1;
 			m_pchData = new char[m_nAllocLength];
 			strcpy_s(m_pchData, m_nAllocLength, str.m_pchData);
+			m_iCounter++;*/
+			*this = CMyString(str.m_pchData); //??
 		}
 	}
 	catch (const std::bad_alloc&)
@@ -119,7 +128,7 @@ size_t CMyString::capacity() const
 
 void CMyString::clear()
 {
-	*m_pchData = '\0';
+	m_pchData[0] = '\0';
 	m_nDataLength = 0;
 }
 
@@ -142,7 +151,7 @@ void CMyString::setat(size_t index, char ch)
 
 bool CMyString::empty() const
 {
-	if (*m_pchData == '\0')
+	if (m_pchData[0] == '\0')
 		return true;
 	else
 		return false;
@@ -150,7 +159,7 @@ bool CMyString::empty() const
 
 void CMyString::display() const
 {
-	std::cout << m_pchData << std::endl;
+	std::cout << m_pchData << std::flush;
 }
 
 void CMyString::shrink_to_fit()
@@ -218,7 +227,7 @@ CMyString& CMyString::operator=(const CMyString& str)
 	else if (str.m_nAllocLength < m_nAllocLength)
 	{
 		m_nDataLength = str.m_nDataLength;
-		strcpy_s(m_pchData, sizeof(m_pchData), str.m_pchData);
+		strcpy_s(m_pchData, str.m_nAllocLength, str.m_pchData);
 		return *this;
 	}
 	else
