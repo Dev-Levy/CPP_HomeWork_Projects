@@ -4,7 +4,7 @@
 //
 //	  A3C6TV
 //
-//	 FELADAT: 5
+//	 FELADAT: 5-6.
 //
 //	 VERZIÓ: 2
 

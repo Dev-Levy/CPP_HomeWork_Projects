@@ -9,7 +9,7 @@
 //
 //	  A3C6TV
 //
-//	 FELADAT: 5
+//	 FELADAT: 5-6.
 //
 //	 VERZIÓ: 2
 
@@ -258,7 +258,7 @@ namespace UnitTest1
 			}
 
 		};
-		TEST_METHOD(OperatorTest1) 
+		TEST_METHOD(OperatorTest1)
 		{
 			CMyString a("alma");
 			CMyString b("korte");
@@ -340,7 +340,7 @@ namespace UnitTest1
 		{
 			try
 			{
-				CMyString a('a', UINT64_MAX-1);
+				CMyString a('a', UINT64_MAX - 1);
 			}
 			catch (CMyStringException& e)
 			{
@@ -349,10 +349,10 @@ namespace UnitTest1
 		}
 		TEST_METHOD(AppendPlusTest)
 		{
-				CMyString a;
-				const char* b = a.c_str();
-				a.append(nullptr);
-				Assert::IsTrue(nullptr != a.c_str());
+			CMyString a;
+			const char* b = a.c_str();
+			a.append(nullptr);
+			Assert::IsTrue(nullptr != a.c_str());
 		}
 	};
- }
+}
