@@ -274,7 +274,68 @@ CMyString& CMyString::operator=(const CMyString& str)
 	}
 }
 
+CMyString::CMyString(CMyString&& str)
+{
+}
+
+CMyString& CMyString::operator=(CMyString&& str)
+{
+	// TODO: insert return statement here
+}
+
+
+char& CMyString::operator[](size_t index)
+{
+
+}
+
+bool CMyString::operator==(const CMyString& str)
+{
+	return this->m_pchData == str.m_pchData;
+}
+
+CMyString::operator const char* ()
+{
+	return m_pchData;
+}
+
+CMyString& CMyString::operator+=(const CMyString& str)
+{
+	append(str.c_str());
+	return *this;
+}
+
+CMyString& CMyString::operator+=(const char* p)
+{
+	append(p);
+	return *this;
+}
+
+CMyString CMyString::operator+(const CMyString& str)
+{
+	return CMyString();
+}
+
+CMyString CMyString::substring(size_t pos, size_t length) const
+{
+	if (pos >= size())
+		throw CMyStringException(CMyStringException::ErrOutOfRange);
+	else if (length == UINT32_MAX)
+		length = size() - pos;
+	CMyString temp;
+	strcpy_s(temp.m_pchData, length + 1, m_pchData + pos);
+	return temp;
+}
+void CMyString::swap(CMyString& str)
+{
+}
+
 #ifdef MYDEBUG
+void CMyString::cleanobjcount()
+{
+	m_iCounter = 0;
+}
+
 unsigned CMyString::objcount()
 {
 	return m_iCounter;

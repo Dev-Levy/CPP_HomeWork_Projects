@@ -36,8 +36,20 @@ public:
 		unsigned count = ~0);
 
 	CMyString& operator=(const CMyString& str);
+	CMyString(CMyString&& str);
+	CMyString& operator=(CMyString&& str);
+	char& operator[](size_t index);
+	bool operator==(const CMyString& str);
+	operator const char* ();
+	CMyString& operator+=(const CMyString& str);
+	CMyString& operator+=(const char* p);
+	CMyString operator+(const CMyString& str);
+
+	CMyString substring(size_t pos, size_t length = ~0) const;
+	void swap(CMyString& str);
 
 #ifdef MYDEBUG
+	static void cleanobjcount();
 	static unsigned objcount();
 #endif											
 
