@@ -33,7 +33,7 @@ CMyString::CMyString()
 	{
 		throw CMyStringException(CMyStringException::ErrUnexpected);
 	}
-	
+
 }
 
 CMyString::CMyString(const char* psz)
@@ -65,7 +65,7 @@ CMyString::CMyString(const char* psz)
 	{
 		throw CMyStringException(CMyStringException::ErrUnexpected);
 	}
-	
+
 }
 
 CMyString::CMyString(char ch, size_t repeat)
@@ -93,10 +93,10 @@ CMyString::CMyString(char ch, size_t repeat)
 	{
 		throw CMyStringException(CMyStringException::ErrUnexpected);
 	}
-	
+
 }
 
-CMyString::CMyString(const CMyString& str)	
+CMyString::CMyString(const CMyString& str)
 {
 	try
 	{
@@ -129,7 +129,7 @@ CMyString::CMyString(const CMyString& str)
 	{
 		throw;
 	}
-	
+
 }
 
 CMyString::~CMyString()
@@ -213,9 +213,9 @@ void CMyString::reverse()
 
 void CMyString::append(const char* psz, unsigned offset, unsigned count)
 {
-	
 
-	if (psz != nullptr /*és nem saját maga*/)
+
+	if (psz != nullptr && m_pchData != psz)
 	{
 		if (count == UINT32_MAX)
 			count = strlen(psz);
@@ -226,7 +226,7 @@ void CMyString::append(const char* psz, unsigned offset, unsigned count)
 			throw CMyStringException(CMyStringException::ErrOutOfRange);
 		else if (count > strlen(psz))
 			throw CMyStringException(CMyStringException::ErrUnexpected);
-		
+
 		//ha belefér
 		if (m_nDataLength + count < m_nAllocLength)
 		{
@@ -234,7 +234,7 @@ void CMyString::append(const char* psz, unsigned offset, unsigned count)
 			m_nDataLength += count;
 		}
 		//ha nem fér bele
-		else 
+		else
 		{
 			char* p = new char[m_nDataLength + count + 1];
 			strcpy_s(p, m_nDataLength + count + 1, m_pchData);
@@ -252,7 +252,7 @@ CMyString& CMyString::operator=(const CMyString& str)
 {
 	if (this == &str)
 		return *this;
-	else if(str.m_nDataLength == 0)
+	else if (str.m_nDataLength == 0)
 	{
 		clear();
 		return *this;
