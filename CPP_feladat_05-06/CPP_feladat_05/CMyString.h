@@ -7,7 +7,7 @@
 //
 //	 FELADAT: 5-6.
 //
-//	 VERZIÓ: 2
+//	 VERZIÓ: 3
 
 #define MAXSTRCIN 100 // maximum beolvasott string hossza
 #ifndef MYDEBUG

@@ -11,7 +11,7 @@
 //
 //	 FELADAT: 5-6.
 //
-//	 VERZIÓ: 2
+//	 VERZIÓ: 3
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
