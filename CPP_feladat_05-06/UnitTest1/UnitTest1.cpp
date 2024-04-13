@@ -323,7 +323,7 @@ namespace UnitTest1
 			Assert::AreEqual('m', a.getat(2));
 			Assert::AreEqual('a', a.getat(3));
 		}
-		/*TEST_METHOD(ObjCountTest1)
+		TEST_METHOD(ObjCountTest1)
 		{
 			CMyString a("alma");
 			CMyString b("korte");
@@ -334,7 +334,7 @@ namespace UnitTest1
 		TEST_METHOD(ObjCountTest2)
 		{
 			Assert::AreEqual((unsigned)0, CMyString::objcount());
-		}*/
+		}
 
 		TEST_METHOD(bad_allocTest)
 		{
@@ -353,6 +353,77 @@ namespace UnitTest1
 			const char* b = a.c_str();
 			a.append(nullptr);
 			Assert::IsTrue(nullptr != a.c_str());
+		}
+
+		TEST_METHOD(TestSubstring)
+		{
+			CMyString str("Hello, world!");
+
+			CMyString sub = str.substring(0, 5);
+			Assert::AreEqual("Hello", sub.c_str());
+						
+			sub = str.substring(7, 1000000);
+			Assert::AreEqual("world!", sub.c_str());
+
+			try {
+				sub = str.substring(20, 5);
+			}
+			catch (const CMyStringException& e) {
+				Assert::AreEqual(CMyStringException::ErrOutOfRange, e.what());
+			}
+		}
+
+		TEST_METHOD(TestSwap)
+		{
+			CMyString str1("Hello");
+			CMyString str2("world!");
+
+			str1.swap(str2);
+
+			Assert::AreEqual("world!", str1.c_str());
+			Assert::AreEqual("Hello", str2.c_str());
+		}
+
+		TEST_METHOD(ConstructorTest)
+		{
+			CMyString str("Hello");
+			Assert::AreEqual("Hello", str.c_str());
+		}
+
+		TEST_METHOD(AssignmentOperatorTest)
+		{
+			CMyString str1("Hello");
+			CMyString str2;
+			str2 = str1;
+			Assert::AreEqual("Hello", str2.c_str());
+		}
+
+		TEST_METHOD(EqualityOperatorTest)
+		{
+			CMyString str1("Hello");
+			CMyString str2("Hello");
+			Assert::IsTrue(str1 == str2);
+		}
+
+		TEST_METHOD(PlusOperatorTest)
+		{
+			CMyString str1("Hello");
+			CMyString str2(" World");
+			CMyString str3 = str1 + str2;
+			Assert::AreEqual("Hello World", str3.c_str());
+		}
+
+		TEST_METHOD(PlusEqualOperatorTest)
+		{
+			CMyString str1("Hello");
+			str1 += " World";
+			Assert::AreEqual("Hello World", str1.c_str());
+		}
+
+		TEST_METHOD(IndexOperatorTest)
+		{
+			CMyString str("Hello");
+			Assert::AreEqual('H', str[0]);
 		}
 	};
 }

@@ -8,7 +8,6 @@ int main() {
 
 	Fruits.shrink_to_fit();
 
-	Fruits.append("Körte");
-	Fruits.append("Körte");
+	Fruits + Name;
 	return 0;
 }

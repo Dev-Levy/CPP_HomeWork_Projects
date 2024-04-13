@@ -132,6 +132,7 @@ CMyString::CMyString(const CMyString& str)
 
 }
 
+
 CMyString::~CMyString()
 {
 	delete[] m_pchData;
@@ -213,8 +214,6 @@ void CMyString::reverse()
 
 void CMyString::append(const char* psz, unsigned offset, unsigned count)
 {
-
-
 	if (psz != nullptr && m_pchData != psz)
 	{
 		if (count == UINT32_MAX)
@@ -244,9 +243,41 @@ void CMyString::append(const char* psz, unsigned offset, unsigned count)
 			m_nDataLength += count;
 			m_nAllocLength = m_nDataLength + 1;
 		}
-
 	}
 }
+
+CMyString CMyString::substring(size_t pos, size_t length) const
+{
+	int sizeOfString = size();
+	if (pos >= sizeOfString)
+		throw CMyStringException(CMyStringException::ErrOutOfRange);
+	else if (length == UINT32_MAX)
+		length = sizeOfString - pos;
+	CMyString temp;
+	temp.m_nDataLength = length;
+	temp.m_nAllocLength = length + 1;
+	temp.m_pchData = new char[temp.m_nAllocLength];
+	strncpy_s(temp.m_pchData, temp.m_nAllocLength, m_pchData + pos, temp.m_nDataLength);
+	temp.m_pchData[temp.m_nDataLength] = '\0';
+	return temp;
+}
+
+void CMyString::swap(CMyString& str)
+{
+	char* p = m_pchData;
+	m_pchData = str.m_pchData;
+	str.m_pchData = p;
+
+	size_t temp = m_nDataLength;
+	m_nDataLength = str.m_nDataLength;
+	str.m_nDataLength = temp;
+
+	temp = m_nAllocLength;
+	m_nAllocLength = str.m_nAllocLength;
+	str.m_nAllocLength = temp;
+}
+
+
 
 CMyString& CMyString::operator=(const CMyString& str)
 {
@@ -273,62 +304,76 @@ CMyString& CMyString::operator=(const CMyString& str)
 		return *this;
 	}
 }
-
-CMyString::CMyString(CMyString&& str)
+//done
+CMyString::CMyString(CMyString&& str) noexcept
 {
-}
+	m_pchData = str.m_pchData;
+	m_nDataLength = str.m_nDataLength;
+	m_nAllocLength = str.m_nAllocLength;
 
-CMyString& CMyString::operator=(CMyString&& str)
+	str.m_pchData = nullptr;
+	str.m_nDataLength = 0;
+	str.m_nAllocLength = 0;
+}
+//done
+CMyString& CMyString::operator=(CMyString&& str) noexcept
 {
-	// TODO: insert return statement here
+	if (this == &str) return *this;
+
+	delete[] m_pchData;
+	m_pchData = str.m_pchData;
+	m_nDataLength = str.m_nDataLength;
+	m_nAllocLength = str.m_nAllocLength;
+
+	str.m_pchData = nullptr;
+	str.m_nDataLength = 0;
+	str.m_nAllocLength = 0;
+	return *this;
 }
-
-
+//done???
 char& CMyString::operator[](size_t index)
 {
-
+	if (index >= size())
+		throw CMyStringException(CMyStringException::ErrOutOfRange);
+	return m_pchData[index];
 }
-
+//done???
+const char& CMyString::operator[](size_t index) const
+{
+	if (index >= size())
+		throw CMyStringException(CMyStringException::ErrOutOfRange);
+	return m_pchData[index];
+}
+//done
 bool CMyString::operator==(const CMyString& str)
 {
-	return this->m_pchData == str.m_pchData;
+	return *this->m_pchData == *str.m_pchData;
 }
-
+//done
 CMyString::operator const char* ()
 {
 	return m_pchData;
 }
-
+//done
 CMyString& CMyString::operator+=(const CMyString& str)
 {
 	append(str.c_str());
 	return *this;
 }
-
+//done
 CMyString& CMyString::operator+=(const char* p)
 {
 	append(p);
 	return *this;
 }
-
+//done
 CMyString CMyString::operator+(const CMyString& str)
 {
-	return CMyString();
+	CMyString result(*this);  
+	result.append(str.c_str()); 
+	return result;
 }
 
-CMyString CMyString::substring(size_t pos, size_t length) const
-{
-	if (pos >= size())
-		throw CMyStringException(CMyStringException::ErrOutOfRange);
-	else if (length == UINT32_MAX)
-		length = size() - pos;
-	CMyString temp;
-	strcpy_s(temp.m_pchData, length + 1, m_pchData + pos);
-	return temp;
-}
-void CMyString::swap(CMyString& str)
-{
-}
 
 #ifdef MYDEBUG
 void CMyString::cleanobjcount()
@@ -341,3 +386,17 @@ unsigned CMyString::objcount()
 	return m_iCounter;
 }
 #endif
+
+std::ostream& operator<<(std::ostream& os, CMyString& s)
+{
+	os << s.c_str();
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, CMyString& s)
+{
+	char temp[MAXSTRCIN];
+	is.getline(temp, MAXSTRCIN);
+	s = temp;
+	return is;
+}
