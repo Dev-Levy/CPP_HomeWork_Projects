@@ -104,7 +104,6 @@ CMyString::CMyString(const CMyString& str)
 	{
 		if (str.m_nDataLength == 0)
 		{
-			delete[] m_pchData;
 			emptyStringMaker();
 #ifdef MYDEBUG
 			m_iCounter++;
@@ -112,7 +111,6 @@ CMyString::CMyString(const CMyString& str)
 		}
 		else
 		{
-			delete[] m_pchData;
 			m_nDataLength = str.m_nDataLength;
 			m_nAllocLength = m_nDataLength + 1;
 			m_pchData = new char[m_nAllocLength];
@@ -249,8 +247,9 @@ CMyString CMyString::substring(size_t pos, size_t length) const
 	int sizeOfString = size();
 	if (pos > sizeOfString)
 		throw CMyStringException(CMyStringException::ErrOutOfRange);
-	else if (length == UINT32_MAX || length == UINT64_MAX)
+	else if (length == UINT32_MAX || length == UINT64_MAX || pos + length > sizeOfString)
 		length = sizeOfString - pos;
+
 	CMyString temp;
 	temp.m_nDataLength = length;
 	temp.m_nAllocLength = length + 1;
