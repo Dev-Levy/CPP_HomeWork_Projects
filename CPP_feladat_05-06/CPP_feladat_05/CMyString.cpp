@@ -10,21 +10,26 @@
 //
 //	 FELADAT: 5-6.
 //
-//	 VERZIÓ: 3
+//	 VERZIÓ: 5
 
 
 #ifdef MYDEBUG
 unsigned CMyString::m_iCounter = 0;
 #endif
 
+void CMyString::emptyStringMaker()
+{
+	m_nDataLength = 0;
+	m_nAllocLength = 1;
+	m_pchData = new char[m_nAllocLength];
+	m_pchData[0] = '\0';
+}
+
 CMyString::CMyString()
 {
 	try
 	{
-		m_nDataLength = 0;
-		m_nAllocLength = 1;
-		m_pchData = new char[m_nAllocLength];
-		m_pchData[0] = '\0';
+		emptyStringMaker();
 #ifdef MYDEBUG
 		m_iCounter++;
 #endif
@@ -42,10 +47,7 @@ CMyString::CMyString(const char* psz)
 	{
 		if (psz == nullptr)
 		{
-			m_nDataLength = 0;
-			m_nAllocLength = 1;
-			m_pchData = new char[m_nAllocLength];
-			m_pchData[0] = '\0';
+			emptyStringMaker();
 #ifdef MYDEBUG
 			m_iCounter++;
 #endif
@@ -103,14 +105,10 @@ CMyString::CMyString(const CMyString& str)
 		if (str.m_nDataLength == 0)
 		{
 			delete[] m_pchData;
-			m_nDataLength = 0;
-			m_nAllocLength = 1;
-			m_pchData = new char[m_nAllocLength];
-			m_pchData[0] = '\0';
+			emptyStringMaker();
 #ifdef MYDEBUG
 			m_iCounter++;
 #endif
-			//*this = CMyString(str.m_pchData); //??
 		}
 		else
 		{
@@ -214,7 +212,7 @@ void CMyString::reverse()
 
 void CMyString::append(const char* psz, unsigned offset, unsigned count)
 {
-	if (psz != nullptr && m_pchData != psz)
+	if (psz != nullptr && m_pchData != psz && psz[0] != '\0')
 	{
 		if (count == UINT32_MAX)
 			count = strlen(psz);
@@ -249,9 +247,9 @@ void CMyString::append(const char* psz, unsigned offset, unsigned count)
 CMyString CMyString::substring(size_t pos, size_t length) const
 {
 	int sizeOfString = size();
-	if (pos >= sizeOfString)
+	if (pos > sizeOfString)
 		throw CMyStringException(CMyStringException::ErrOutOfRange);
-	else if (length == UINT32_MAX)
+	else if (length == UINT32_MAX || length == UINT64_MAX)
 		length = sizeOfString - pos;
 	CMyString temp;
 	temp.m_nDataLength = length;
@@ -311,23 +309,22 @@ CMyString::CMyString(CMyString&& str) noexcept
 	m_nDataLength = str.m_nDataLength;
 	m_nAllocLength = str.m_nAllocLength;
 
-	str.m_pchData = nullptr;
-	str.m_nDataLength = 0;
-	str.m_nAllocLength = 0;
+	str.emptyStringMaker();
+
+#ifdef MYDEBUG
+	m_iCounter++;
+#endif
 }
 //done
 CMyString& CMyString::operator=(CMyString&& str) noexcept
 {
-	if (this == &str) return *this;
+	if (this != &str) {
+		m_pchData = str.m_pchData;
+		m_nDataLength = str.m_nDataLength;
+		m_nAllocLength = str.m_nAllocLength;
 
-	delete[] m_pchData;
-	m_pchData = str.m_pchData;
-	m_nDataLength = str.m_nDataLength;
-	m_nAllocLength = str.m_nAllocLength;
-
-	str.m_pchData = nullptr;
-	str.m_nDataLength = 0;
-	str.m_nAllocLength = 0;
+		str.emptyStringMaker();
+	}
 	return *this;
 }
 //done???
@@ -347,7 +344,7 @@ const char& CMyString::operator[](size_t index) const
 //done
 bool CMyString::operator==(const CMyString& str)
 {
-	return *this->m_pchData == *str.m_pchData;
+	return strcmp(this->c_str(), str.c_str()) == 0;
 }
 //done
 CMyString::operator const char* ()
@@ -376,7 +373,8 @@ CMyString CMyString::operator+(const CMyString& str)
 
 
 #ifdef MYDEBUG
-void CMyString::cleanobjcount()
+
+void CMyString::clearobjcount()
 {
 	m_iCounter = 0;
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../CPP_feladat_05/CMyString.h"
 #include "../CPP_feladat_05/CMyStringException.h"
+#define ARE_NOTEQUALPTR(expVal, actVal) Assert::AreNotEqual((char *)expVal, (char *)actVal, L"-", LINE_INFO())
 
 
 //	Oláh Levente
@@ -11,7 +12,7 @@
 //
 //	 FELADAT: 5-6.
 //
-//	 VERZIÓ: 3
+//	 VERZIÓ: 5
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -325,6 +326,7 @@ namespace UnitTest1
 		}
 		TEST_METHOD(ObjCountTest1)
 		{
+			CMyString::clearobjcount();
 			CMyString a("alma");
 			CMyString b("korte");
 			CMyString c("narants");
@@ -424,6 +426,79 @@ namespace UnitTest1
 		{
 			CMyString str("Hello");
 			Assert::AreEqual('H', str[0]);
+		}
+
+		TEST_METHOD(SubstringTest2)
+		{
+			CMyString s1, s2("alma");
+			s1 = s2.substring(0);
+			Assert::AreEqual("alma", s1.c_str());
+
+			s1 = s2.substring(4);
+			Assert::AreEqual('\0', *s1.c_str());
+		}
+
+		TEST_METHOD(EqualityOperatorTest2)
+		{
+			CMyString s1("ananasz");
+			CMyString s2("ananasz");
+			CMyString s3("dio");
+			CMyString s4;
+			CMyString s5("eperdio");
+			Assert::IsTrue(s1 == s2);
+			Assert::IsTrue(!(s2 == s3));
+			Assert::IsTrue(!(s3 == s4));
+			Assert::IsTrue(!(s3 == s5));
+			Assert::IsTrue(!(s4 == s5));
+		}
+
+		TEST_METHOD(MoveTest)
+		{
+			CMyString::clearobjcount();
+			try
+			{
+				CMyString t("datolya");
+				CMyString s = std::move(t);
+
+				Assert::ARE_NOTEQUALPTR(nullptr, t.c_str());
+				Assert::AreEqual("datolya", s.c_str());
+				Assert::AreEqual('\0', *t.c_str());
+
+				Assert::AreEqual((size_t)0, t.size());
+				Assert::AreEqual((size_t)1, t.capacity());
+				Assert::AreEqual((size_t)7, s.size());
+				Assert::AreEqual((size_t)8, s.capacity());
+			}
+			catch (const std::exception&) {}
+
+			unsigned objcount = CMyString::objcount();
+			Assert::AreEqual(0u, objcount);
+		}
+
+		TEST_METHOD(AddOperatorTest2)
+		{
+			CMyString s1("alma");
+			CMyString s2;
+			s1 += s2;
+			Assert::AreEqual("alma", s1.c_str());
+		}
+
+		TEST_METHOD(AddOperatorTest3)
+		{
+			CMyString::clearobjcount();
+			try
+			{
+				CMyString s1("ananász");
+				CMyString s2("alma");
+				CMyString s3("eper");
+				s1 = s2 + s3;
+				Assert::AreEqual("almaeper", s1.c_str());
+				Assert::AreEqual(3u, CMyString::objcount());
+				CMyString s4 = std::move(s1);
+			}
+			catch (const std::exception&) {}
+			
+			Assert::AreEqual(0u, CMyString::objcount());
 		}
 	};
 }

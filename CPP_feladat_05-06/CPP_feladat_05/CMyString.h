@@ -7,7 +7,7 @@
 //
 //	 FELADAT: 5-6.
 //
-//	 VERZIÓ: 3
+//	 VERZIÓ: 5
 
 #define MAXSTRCIN 100 // maximum beolvasott string hossza
 #ifndef MYDEBUG
@@ -49,9 +49,9 @@ public:
 	CMyString operator+(const CMyString& str);
 
 	
-
+	void emptyStringMaker();
 #ifdef MYDEBUG
-	static void cleanobjcount();
+	static void clearobjcount();
 	static unsigned objcount();
 #endif											
 
