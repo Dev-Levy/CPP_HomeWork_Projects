@@ -36,10 +36,17 @@ int CPhoneIterName::size()
 
 Record* CPhoneIterName::search(const char* key)
 {
-	return nullptr;
+	Record* p = begin();
+	while(strcmp(p->name, key) != 0 && p)
+		p = next();
+
+	if (p == nullptr)
+		return nullptr;
+	else
+		return p;
 }
 
 Record* CPhoneIterName::operator++()
 {
-	return nullptr;
+	return next();
 }
