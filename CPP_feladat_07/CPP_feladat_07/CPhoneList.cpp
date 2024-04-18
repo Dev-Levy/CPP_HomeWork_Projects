@@ -7,14 +7,22 @@ CPhoneList::CPhoneList()
 
 int CPhoneList::append(const Record& newrec)
 {
-	return 0;
+	if (m_iFirstEmpty < MAXLENGTH)
+	{
+		m_rArray[m_iFirstEmpty] = newrec;
+		m_iFirstEmpty++;
+		return OK;
+	}
+	return NOK;
 }
 
 void CPhoneList::displayname()
 {
+
 }
 
 std::ostream& operator<<(std::ostream& os, Record& r)
 {
-	// TODO: insert return statement here
+	os << std::endl << r.name << ";" << r.number;
+	return os;
 }

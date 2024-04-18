@@ -2,10 +2,21 @@
 #define MAXLENGTH 10					// értéke változhat,ahogy a munka kívánja! 
 #define MAXNAME 32
 #define MAXNUMBER 16
+#define OK 0
+#define NOK 1
 
 struct Record {
 	char name[MAXNAME + 1];
 	char number[MAXNUMBER + 1];
+
+	Record() {
+		name[0] = '\0';
+		number[0] = '\0';
+	}
+	Record(const char* n, const char* num) {
+		strcpy_s(name, MAXNAME + 1, n);
+		strcpy_s(number, MAXNUMBER + 1, num);
+	}
 };
 
 class CPhoneList {

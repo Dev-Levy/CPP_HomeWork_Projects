@@ -1,8 +1,9 @@
 #include "CPhoneIterName.h"
 
 
-CPhoneIterName::CPhoneIterName(CPhoneList& m)
+CPhoneIterName::CPhoneIterName(CPhoneList& m) : m_cpList(&m)
 {
+	m_iCurrIndex = 0;
 }
 
 CPhoneIterName::~CPhoneIterName()
