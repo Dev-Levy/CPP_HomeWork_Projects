@@ -1,4 +1,5 @@
 #include "CPhoneList.h"
+#include "CPhoneIterName.h"
 
 
 int main() {
@@ -26,8 +27,8 @@ int main() {
 	list.append(r9);
 	list.append(r10);
 
-	CPhoneIterName iter1(list);
-
+	CPhoneIterName iter(list);
+	iter.search("Tom");
 
 	list.displayname();
 }
