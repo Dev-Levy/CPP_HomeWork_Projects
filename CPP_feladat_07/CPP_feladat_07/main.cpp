@@ -1,18 +1,18 @@
-#include "CPhoneList.h"
 #include "CPhoneIterName.h"
+#include <iostream>
 
 
 int main() {
-	Record r1("John", "1234567");
-	Record r2("Mary", "2345678");
-	Record r3("Tom", "3456789");
-	Record r4("Jerry", "4567890");
-	Record r5("Alice", "5678901");
-	Record r6("Bob", "6789012");
-	Record r7("David", "7890123");
-	Record r8("Eve", "8901234");
-	Record r9("Frank", "9012345");
-	Record r10("Grace", "0123456");
+	Record r1("john", "123-456-7890");
+	Record r2("Anne", "234-567-8901");
+	Record r3("zack", "345-678-9012");
+	Record r4("Sara", "456-789-0123");
+	Record r5("Mike", "567-890-1234");
+	Record r6("Tom", "678-901-2345");
+	Record r7("jerry", "789-012-3456");
+	Record r8("Linda", "890-123-4567");
+	Record r9("sue", "901-234-5678");
+	Record r10("Bob", "012-345-6789");
 
 	CPhoneList list;
 
@@ -26,9 +26,11 @@ int main() {
 	list.append(r8);
 	list.append(r9);
 	list.append(r10);
+	
 
 	CPhoneIterName iter(list);
-	iter.search("Tom");
 
 	list.displayname();
+
+	iter.search("Anne");
 }

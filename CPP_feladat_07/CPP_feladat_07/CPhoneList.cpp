@@ -1,4 +1,6 @@
 #include "CPhoneList.h"
+#include "CPhoneIterName.h"
+#include <iostream>
 
 CPhoneList::CPhoneList()
 {
@@ -18,7 +20,13 @@ int CPhoneList::append(const Record& newrec)
 
 void CPhoneList::displayname()
 {
-
+	CPhoneIterName iter(*this);
+	Record* rec = iter.begin();
+	while (rec != nullptr)
+	{
+		std::cout << *rec;
+		rec = ++iter;
+	}
 }
 
 std::ostream& operator<<(std::ostream& os, Record& r)

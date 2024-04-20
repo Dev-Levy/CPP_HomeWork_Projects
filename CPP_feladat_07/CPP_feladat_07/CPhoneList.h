@@ -1,9 +1,11 @@
+#pragma once
 #include <ostream>
 #define MAXLENGTH 10					// értéke változhat,ahogy a munka kívánja! 
 #define MAXNAME 32
 #define MAXNUMBER 16
 #define OK 0
 #define NOK 1
+
 
 struct Record {
 	char name[MAXNAME + 1];
@@ -18,7 +20,6 @@ struct Record {
 		strcpy_s(number, MAXNUMBER + 1, num);
 	}
 };
-
 class CPhoneList {
 	friend class CPhoneIterName;		// növekvõ sorrendben, name alapján
 

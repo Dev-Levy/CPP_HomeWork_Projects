@@ -1,48 +1,62 @@
 #include "CPhoneIterName.h"
-#include <string.h>
+#include <algorithm>
+#include <cctype>
 
 
-CPhoneIterName::CPhoneIterName(CPhoneList& m) : m_cpList(&m)
+CPhoneIterName::CPhoneIterName(CPhoneList& m) : m_cpList(&m), m_iCurrIndex(-1)
 {
-	m_iCurrIndex = 0;
-
-	for (size_t i = 0; i < MAXLENGTH; i++)
+	indexArray = new unsigned[m.m_iFirstEmpty];
+	n = m.m_iFirstEmpty;
+	for (size_t i = 0; i < m.m_iFirstEmpty; i++)
 		indexArray[i] = i;
 
-	auto cmp = [this](unsigned index1, unsigned index2)->bool {
-		return strcmp(this->m_cpList->m_rArray[index1].name, this->m_cpList->m_rArray[index2].name) < 0;
-	};
-
-	mysort(indexArray, MAXLENGTH, cmp);
+	std::sort(indexArray, indexArray + n, [&](unsigned i, unsigned j) { return cmp(m.m_rArray[i], m.m_rArray[j]); });
 }
 
 CPhoneIterName::~CPhoneIterName()
 {
+	delete[] indexArray;
 }
 
 Record* CPhoneIterName::begin()
 {
-	return nullptr;
+	if (n == 0)
+		return nullptr;
+
+	m_iCurrIndex = 0;
+	auto p = &m_cpList->m_rArray[indexArray[m_iCurrIndex]];
+	return p;
 }
 
 Record* CPhoneIterName::prev()
 {
-	return nullptr;
+	if (m_iCurrIndex - 1 < 0)
+		return nullptr;
+
+	m_iCurrIndex--;
+	auto p = &m_cpList->m_rArray[indexArray[m_iCurrIndex]];
+	return p;
 }
 
 Record* CPhoneIterName::next()
 {
-	return nullptr;
+	auto p = ++(*this);
+	return p;
 }
 
 Record* CPhoneIterName::end()
 {
-	return nullptr;
+	if (n == 0)
+		return nullptr;
+
+	m_iCurrIndex = n - 1;
+	auto p = &m_cpList->m_rArray[indexArray[m_iCurrIndex]];
+	return p;
 }
 
 int CPhoneIterName::size()
 {
-	return 0;
+	return n;
 }
 
 Record* CPhoneIterName::search(const char* key)
@@ -59,22 +73,25 @@ Record* CPhoneIterName::search(const char* key)
 
 Record* CPhoneIterName::operator++()
 {
-	return next();
+	if (m_iCurrIndex + 1 == n)
+		return nullptr;
+
+	m_iCurrIndex++;
+	auto p = &m_cpList->m_rArray[indexArray[m_iCurrIndex]];
+	return p;
 }
 
-void CPhoneIterName::mysort(unsigned* array, unsigned size, std::function<bool(unsigned, unsigned)> cmp)
+bool CPhoneIterName::cmp(const Record& r1, const Record& r2)
 {
-	for (size_t i = 0; i < size; i++)
-	{
-		for (size_t j = i + 1; j < size; j++)
-		{
-			if (cmp(array[i], array[j]))
-			{
-				unsigned temp = array[i];
-				array[i] = array[j];
-				array[j] = temp;
-			}
-		}
-	}
+	std::string name1 = r1.name;
+	std::string name2 = r2.name;
+
+	std::transform(name1.begin(), name1.end(), name1.begin(),
+		[](unsigned char c) { return std::tolower(c); });
+
+	std::transform(name2.begin(), name2.end(), name2.begin(),
+		[](unsigned char c) { return std::tolower(c); });
+
+	return name1 < name2;
 }
 
