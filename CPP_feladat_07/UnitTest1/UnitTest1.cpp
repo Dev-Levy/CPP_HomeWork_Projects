@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 7
+//
+//	 VERZIÓ: 1
+
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "../CPP_feladat_07/CPhoneList.h"

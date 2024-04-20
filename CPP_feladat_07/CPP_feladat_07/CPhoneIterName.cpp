@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 7
+//
+//	 VERZIÓ: 1
+
 #include "CPhoneIterName.h"
 #include <algorithm>
 #include <cctype>

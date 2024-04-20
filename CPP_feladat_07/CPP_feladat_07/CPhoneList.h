@@ -1,3 +1,11 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 7
+//
+//	 VERZIÓ: 1
 #pragma once
 #include <ostream>
 #define MAXLENGTH 10					// értéke változhat,ahogy a munka kívánja! 
