@@ -32,5 +32,5 @@ int main() {
 
 	list.displayname();
 
-	iter.search("Anne");
+	iter.search("asd");
 }

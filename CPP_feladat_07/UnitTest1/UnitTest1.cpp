@@ -5,7 +5,7 @@
 //
 //	 FELADAT: 7
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 #include "pch.h"
 #include "CppUnitTest.h"
@@ -188,5 +188,43 @@ namespace UnitTest1
             Assert::AreEqual("c", rec->name);
             Assert::AreEqual("56", rec->number);
         }
+
+        TEST_METHOD(EmptyTest)
+        {
+            CPhoneList phoneList;
+            CPhoneIterName iter(phoneList);
+            Assert::IsTrue(iter.begin() == nullptr);
+            Assert::IsTrue(iter.end() == nullptr);
+            Assert::IsTrue(iter.next() == nullptr);
+            Assert::IsTrue(iter.prev() == nullptr);
+            Assert::IsTrue(iter.size() == 0);
+            Assert::IsTrue(iter.search("a") == nullptr);
+            Assert::IsTrue(iter.search(nullptr) == nullptr);
+		}
+
+        TEST_METHOD(SearchTest2)
+        {
+            CPhoneList phoneList;
+            Record r1("a", "12");
+            char s1[] = "a";
+            char s2[] = "12";
+            char s3[] = "b";
+            phoneList.append(r1);
+
+            CPhoneIterName iter(phoneList);
+            Record* rec = iter.search(s1);
+            Assert::AreEqual(s1, rec->name);
+            Assert::AreEqual(s2, rec->number);
+
+            rec = iter.search(s2);
+            Assert::IsTrue(nullptr == rec);
+
+            rec = iter.search(s3);
+            Assert::IsTrue(nullptr == rec);
+
+            rec = iter.search(nullptr);
+            Assert::IsTrue(nullptr == rec);
+
+		}
 	};
 }

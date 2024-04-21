@@ -5,7 +5,7 @@
 //
 //	 FELADAT: 7
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 #include "CPhoneIterName.h"
 #include <algorithm>
@@ -70,8 +70,13 @@ int CPhoneIterName::size()
 
 Record* CPhoneIterName::search(const char* key)
 {
+	if (n == 0)
+		return nullptr;
+	else if(key == nullptr)
+		return nullptr;
+
 	Record* p = begin();
-	while(strcmp(p->name, key) != 0 && p)
+	while(p && strcmp(p->name, key) != 0)
 		p = next();
 
 	if (p == nullptr)

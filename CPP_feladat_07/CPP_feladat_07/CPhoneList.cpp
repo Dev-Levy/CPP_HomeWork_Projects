@@ -5,7 +5,7 @@
 //
 //	 FELADAT: 7
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 #include "CPhoneList.h"
 #include "CPhoneIterName.h"

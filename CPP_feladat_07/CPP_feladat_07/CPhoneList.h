@@ -5,7 +5,7 @@
 //
 //	 FELADAT: 7
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 #pragma once
 #include <ostream>
 #define MAXLENGTH 10					// értéke változhat,ahogy a munka kívánja! 
