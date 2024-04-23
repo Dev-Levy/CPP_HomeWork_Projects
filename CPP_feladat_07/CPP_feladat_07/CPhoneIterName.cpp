@@ -7,6 +7,8 @@
 //
 //	 VERZIÓ: 2
 
+#include <ostream>
+#include "CPhoneList.h"
 #include "CPhoneIterName.h"
 #include <algorithm>
 #include <cctype>

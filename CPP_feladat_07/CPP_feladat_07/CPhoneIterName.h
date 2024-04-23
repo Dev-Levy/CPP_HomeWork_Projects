@@ -8,7 +8,6 @@
 //	 VERZIÓ: 2
 
 #pragma once
-#include "CPhoneList.h"
 
 class CPhoneIterName
 {
