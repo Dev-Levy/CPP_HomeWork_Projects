@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-template <class T> 
+template <class T> // T: int, char, double, CMyString
 class CMyVector
 {
 private:
@@ -18,6 +18,7 @@ private:
 	// m_nCapacity >= m_nSize minden esetben !!!!
 	// nCapacity - m_nSize (4): nem elérhető elemek def konstruktor-l inicializálódnak osztály esetén,
 	// alapadattípusnál lásd később …
+	int in;
 
 public:
 	CMyVector(void);								// minden def érték!
@@ -30,8 +31,9 @@ public:
 	
 	void clear();									// Törli az elemeket (üres) -> m_nSize=0, -> def.constr ! m_nCapacity értéke marad
 	
-	void push_back(const T& value);					// Tömb végéhez fűzi az értéket, m_nSize növekszik, ha lehet, különben új memóriafoglalás -> mérete: 1,5*m_nCapacity, de
-	//min 4et kell foglalni							// min. 4 elem!, Pl.:
+	void push_back(const T& value);					// Tömb végéhez fűzi az értéket, m_nSize növekszik, ha lehet, 
+													// különben új memóriafoglalás -> mérete: 1,5*m_nCapacity, de
+													// min. 4 elem!, Pl.:
 													// m_nSize=1, m_nCapacity=1 -> push_back -> m_nSize=2, m_nCapacity=4,
 													// m_nSize=5, m_nCapacity=5 -> push_back -> m_nSize=6, m_nCapacity= 7 (5*1,5 -> 7), def. konstuktor hívódik az új elemnél!
 	

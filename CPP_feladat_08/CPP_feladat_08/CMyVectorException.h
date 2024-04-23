@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
-class CmyVectorException
+class CMyVectorException
 {
 public:
-	CmyVectorException(const char* s);
+	CMyVectorException(const char* s);
 	const char* what(void) const;
 
 	static constexpr const char* ErrIndex = "Hiba: index hiba!";

@@ -1,6 +1,6 @@
 #include "CMyString.h"
 #include "CMyStringException.h"
-#include <string.h>
+//#include <string.h>
 #include <string>
 #include <iostream>
 
@@ -369,10 +369,15 @@ CMyString CMyString::operator+(const CMyString& str)
 	result.append(str.c_str()); 
 	return result;
 }
-//done??????
+//done
 bool CMyString::operator<(const CMyString& str)
 {
 	bool result = std::strcmp(this->c_str(), str.c_str()) < 0;
+	return result;
+}
+bool CMyString::operator>(const CMyString& str)
+{
+	bool result = std::strcmp(this->c_str(), str.c_str()) > 0;
 	return result;
 }
 

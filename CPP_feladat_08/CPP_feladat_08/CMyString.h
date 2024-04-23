@@ -50,6 +50,8 @@ public:
 
 	bool operator<(const CMyString& str);
 
+	bool operator>(const CMyString& str);
+
 	
 	void emptyStringMaker();
 #ifdef MYDEBUG
