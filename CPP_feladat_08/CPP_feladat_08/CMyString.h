@@ -48,9 +48,9 @@ public:
 	CMyString& operator+=(const char* p);
 	CMyString operator+(const CMyString& str);
 
-	bool operator<(const CMyString& str);
+	bool operator<(const CMyString& str) const;
 
-	bool operator>(const CMyString& str);
+	bool operator>(const CMyString& str) const;
 
 	
 	void emptyStringMaker();

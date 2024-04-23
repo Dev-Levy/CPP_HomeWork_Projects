@@ -293,7 +293,6 @@ CMyString& CMyString::operator=(const CMyString& str)
 	}
 	else
 	{
-		delete[] m_pchData;
 		m_nDataLength = str.m_nDataLength;
 		m_nAllocLength = m_nDataLength + 1;
 		m_pchData = new char[m_nAllocLength];
@@ -370,12 +369,12 @@ CMyString CMyString::operator+(const CMyString& str)
 	return result;
 }
 //done
-bool CMyString::operator<(const CMyString& str)
+bool CMyString::operator<(const CMyString& str) const
 {
 	bool result = std::strcmp(this->c_str(), str.c_str()) < 0;
 	return result;
 }
-bool CMyString::operator>(const CMyString& str)
+bool CMyString::operator>(const CMyString& str) const
 {
 	bool result = std::strcmp(this->c_str(), str.c_str()) > 0;
 	return result;

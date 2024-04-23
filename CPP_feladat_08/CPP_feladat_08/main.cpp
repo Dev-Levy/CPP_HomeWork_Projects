@@ -1,22 +1,21 @@
 #include "CMyVector.h"
+#include "CMyString.h"
 
 extern template CMyVector <int>;
 
 int main() {
-	auto asd = CMyVector<int>(4);
-	asd.push_back(456);
-	asd.push_back(346);
-	asd.push_back(789);
-	asd.push_back(123);
-	auto asdasd = asd[2];
-	asd.list();
+	auto asd = CMyVector<CMyString>(4);
+	asd.push_back(CMyString("asd"));
+	asd.push_back(CMyString("qwe"));
+	asd.push_back(CMyString("zxc"));
+	asd.push_back(CMyString("rty"));
+	asd.push_back(CMyString("fgh"));
 
+	asd.list();
 	asd.sort(true);
-
 	asd.list();
-
 	asd.sort(false);
-
 	asd.list();
-	auto qwe = asd.capacity();
+
+	return 0;
 }

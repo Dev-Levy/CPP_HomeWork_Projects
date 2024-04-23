@@ -97,12 +97,11 @@ void CMyVector<T>::push_back(const T& value)
 		for (size_t i = 0; i < m_nSize; i++)
 			asd[i] = m_pData[i];
 
+		delete[] m_pData;
 		m_pData = asd;
 		m_pData[in] = value;
 		m_nSize++;
 		in++;
-
-		delete[] m_pData;
 	}
 
 }
@@ -112,7 +111,7 @@ void CMyVector<T>::list()
 {
 	for (int i = 0; i < m_nSize; i++) 
 	{
-		T asd = m_pData[i];
+		auto asd = m_pData[i];
 		std::cout << i + 1 << ".: " << asd << std::endl;
 	}
 	std::cout << std::endl;
