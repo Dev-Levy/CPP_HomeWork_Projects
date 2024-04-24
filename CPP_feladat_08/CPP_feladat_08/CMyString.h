@@ -42,7 +42,7 @@ public:
 	CMyString& operator=(CMyString&& str) noexcept;
 	char& operator[](size_t index);
 	const char& operator[](size_t index) const;
-	bool operator==(const CMyString& str);
+	bool operator==(const CMyString& str) const;
 	operator const char* ();
 	CMyString& operator+=(const CMyString& str);
 	CMyString& operator+=(const char* p);

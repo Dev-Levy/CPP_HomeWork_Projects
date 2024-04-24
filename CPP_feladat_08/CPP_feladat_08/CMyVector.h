@@ -1,4 +1,13 @@
-﻿#pragma once
+﻿
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 8
+//
+//	 VERZIÓ: 1
+
+#pragma once
 
 template <class T> // T: int, char, double, CMyString
 class CMyVector

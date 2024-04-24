@@ -1,6 +1,5 @@
 #include "CMyString.h"
 #include "CMyStringException.h"
-//#include <string.h>
 #include <string>
 #include <iostream>
 
@@ -12,6 +11,14 @@
 //
 //	 VERZIÓ: 6
 
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 8
+//
+//	 VERZIÓ: 1
 
 #ifdef MYDEBUG
 unsigned CMyString::m_iCounter = 0;
@@ -340,7 +347,7 @@ const char& CMyString::operator[](size_t index) const
 	return m_pchData[index];
 }
 //done
-bool CMyString::operator==(const CMyString& str)
+bool CMyString::operator==(const CMyString& str) const
 {
 	return strcmp(this->c_str(), str.c_str()) == 0;
 }

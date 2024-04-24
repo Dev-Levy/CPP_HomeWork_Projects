@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 8
+//
+//	 VERZIÓ: 1
+
 #include "CMyVectorException.h"
 
 CMyVectorException::CMyVectorException(const char* s)

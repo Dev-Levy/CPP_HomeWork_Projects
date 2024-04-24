@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 8
+//
+//	 VERZIÓ: 1
+
 #include <algorithm>
 #include <iostream>
 #include "CMyVector.h"
@@ -22,7 +31,7 @@ CMyVector<T>::CMyVector(void)
 template <class T>
 CMyVector<T>::CMyVector(unsigned n)
 {
-	m_pData = new T[n];
+	m_pData = new T[n]();
 	m_nSize = n;
 	m_nCapacity = n;
 	in = 0;
@@ -49,19 +58,26 @@ T& CMyVector<T>::operator[](unsigned n)
 template <class T>
 CMyVector<T>& CMyVector<T>::operator=(const CMyVector<T>& r)
 {
-	if (this == &r || &r.m_nSize == 0)
+	if (r.m_nSize == 0)
 		return *this;
 
 	else if (r.m_nSize <= m_nCapacity)
 	{
-		for (size_t i = 0; i < m_nSize; i++)
+		for (size_t i = 0; i < r.m_nSize; i++)
 			m_pData[i] = r.m_pData[i];
+		for (size_t i = r.m_nSize; i < m_nSize; i++)
+			m_pData[i] = {};
+
+		m_nSize = r.m_nSize;
 	}	
 	else //r.m_nSize > m_nCapacity
 	{
 		m_pData = new T[r.m_nSize];
-		for (size_t i = 0; i < m_nSize; i++)
+		for (size_t i = 0; i < r.m_nSize; i++)
 			m_pData[i] = r.m_pData[i];
+
+		m_nSize = r.m_nSize;
+		m_nCapacity = r.m_nSize;
 	}
 }
 
@@ -97,7 +113,6 @@ void CMyVector<T>::push_back(const T& value)
 		for (size_t i = 0; i < m_nSize; i++)
 			asd[i] = m_pData[i];
 
-		delete[] m_pData;
 		m_pData = asd;
 		m_pData[in] = value;
 		m_nSize++;
@@ -114,7 +129,6 @@ void CMyVector<T>::list()
 		auto asd = m_pData[i];
 		std::cout << i + 1 << ".: " << asd << std::endl;
 	}
-	std::cout << std::endl;
 }
 
 template <class T>
@@ -139,12 +153,13 @@ void CMyVector<T>::resize(unsigned n)
 	}
 	else
 	{
-		T* asd = new T[n];
+		T* asd = new T[n]();
 		for (size_t i = 0; i < m_nSize; i++)
 			asd[i] = m_pData[i];
 
-		delete[] m_pData;
 		m_pData = asd;
+		m_nSize = n;
+		m_nCapacity = n;
 	}
 
 }

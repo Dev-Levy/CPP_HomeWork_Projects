@@ -8,6 +8,14 @@
 //
 //	 VERZIÓ: 6
 
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 8
+//
+//	 VERZIÓ: 1
+
 CMyStringException::CMyStringException(const char* s) : m_message(s) {}
 
 
