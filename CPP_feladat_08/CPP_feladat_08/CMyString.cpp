@@ -206,8 +206,8 @@ void CMyString::shrink_to_fit()
 
 void CMyString::reverse()
 {
-	int sizeOfString = size();
-	for (int i = 0; i < sizeOfString / 2; i++)
+	size_t sizeOfString = size();
+	for (size_t i = 0; i < sizeOfString / 2; i++)
 	{
 		char temp = m_pchData[i];
 		m_pchData[i] = m_pchData[sizeOfString - i - 1];
@@ -251,7 +251,7 @@ void CMyString::append(const char* psz, unsigned offset, unsigned count)
 
 CMyString CMyString::substring(size_t pos, size_t length) const
 {
-	int sizeOfString = size();
+	size_t sizeOfString = size();
 	if (pos > sizeOfString)
 		throw CMyStringException(CMyStringException::ErrOutOfRange);
 	else if (length == UINT32_MAX || length == UINT64_MAX || pos + length > sizeOfString)
