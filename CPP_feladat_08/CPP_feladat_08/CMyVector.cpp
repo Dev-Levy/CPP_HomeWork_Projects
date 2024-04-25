@@ -5,7 +5,7 @@
 //
 //	 FELADAT: 8
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 #include <algorithm>
 #include <iostream>

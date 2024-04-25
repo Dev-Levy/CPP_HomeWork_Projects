@@ -18,7 +18,7 @@
 //
 //	 FELADAT: 8
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 #ifdef MYDEBUG
 unsigned CMyString::m_iCounter = 0;
