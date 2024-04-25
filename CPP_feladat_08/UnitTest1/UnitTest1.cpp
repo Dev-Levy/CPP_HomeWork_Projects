@@ -631,6 +631,21 @@ namespace UnitTest1
 			Assert::AreEqual(3u, strvec.size());
 			Assert::AreEqual(3u, strvec.capacity());
 		}
+
+		TEST_METHOD(TestPush)
+		{
+			unsigned maxtest = 5;
+			CMyVector<int> vec(maxtest);
+			auto asd = vec[1];
+			for (int i = 0; i < maxtest; i++)
+				vec[i] = i + 1;
+
+			vec.push_back(6);
+
+			Assert::AreEqual(maxtest+1, vec.size());
+			Assert::AreEqual(7u, vec.capacity());
+			Assert::AreEqual(6, vec[maxtest]);
+		}
 	};
 }
 

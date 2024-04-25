@@ -53,6 +53,8 @@ T& CMyVector<T>::operator[](unsigned n)
 		throw CMyVectorException(CMyVectorException::ErrIndex);
 
 	return m_pData[n];
+
+	//nem tudni, hogy ez set vagy get, ezért nem lehet növelni az in értékét
 }
 
 template <class T>
@@ -69,7 +71,8 @@ CMyVector<T>& CMyVector<T>::operator=(const CMyVector<T>& r)
 			m_pData[i] = {};
 
 		m_nSize = r.m_nSize;
-	}	
+		return *this;
+	}
 	else //r.m_nSize > m_nCapacity
 	{
 		m_pData = new T[r.m_nSize];
@@ -78,6 +81,7 @@ CMyVector<T>& CMyVector<T>::operator=(const CMyVector<T>& r)
 
 		m_nSize = r.m_nSize;
 		m_nCapacity = r.m_nSize;
+		return *this;
 	}
 }
 
@@ -93,6 +97,7 @@ void CMyVector<T>::clear()
 template <class T>
 void CMyVector<T>::push_back(const T& value)
 {
+	//int in = 0;
 	if (in < m_nSize)
 	{
 		m_pData[in] = value;
@@ -118,13 +123,12 @@ void CMyVector<T>::push_back(const T& value)
 		m_nSize++;
 		in++;
 	}
-
 }
 
 template <class T>
 void CMyVector<T>::list()
 {
-	for (int i = 0; i < m_nSize; i++) 
+	for (int i = 0; i < m_nSize; i++)
 	{
 		auto asd = m_pData[i];
 		std::cout << i + 1 << ".: " << asd << std::endl;
