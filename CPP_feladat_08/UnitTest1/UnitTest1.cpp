@@ -5,7 +5,7 @@
 //
 //	 FELADAT: 8
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 #include "pch.h"
 #include "CppUnitTest.h"
@@ -636,8 +636,7 @@ namespace UnitTest1
 		{
 			unsigned maxtest = 5;
 			CMyVector<int> vec(maxtest);
-			auto asd = vec[1];
-			for (int i = 0; i < maxtest; i++)
+			for (unsigned i = 0; i < maxtest; i++)
 				vec[i] = i + 1;
 
 			vec.push_back(6);

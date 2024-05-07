@@ -5,7 +5,7 @@
 //
 //	 FELADAT: 8
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 #pragma once
 
@@ -27,7 +27,7 @@ private:
 	// m_nCapacity >= m_nSize minden esetben !!!!
 	// nCapacity - m_nSize (4): nem elérhető elemek def konstruktor-l inicializálódnak osztály esetén,
 	// alapadattípusnál lásd később …
-	int in;
+	unsigned in;
 
 public:
 	CMyVector(void);								// minden def érték!

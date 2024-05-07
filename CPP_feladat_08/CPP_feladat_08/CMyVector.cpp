@@ -5,7 +5,7 @@
 //
 //	 FELADAT: 8
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 #include <algorithm>
 #include <iostream>
@@ -52,9 +52,8 @@ T& CMyVector<T>::operator[](unsigned n)
 	else if (n >= m_nSize)
 		throw CMyVectorException(CMyVectorException::ErrIndex);
 
+	in = n + 1;
 	return m_pData[n];
-
-	//nem tudni, hogy ez set vagy get, ezért nem lehet növelni az in értékét
 }
 
 template <class T>
@@ -97,7 +96,6 @@ void CMyVector<T>::clear()
 template <class T>
 void CMyVector<T>::push_back(const T& value)
 {
-	//int in = 0;
 	if (in < m_nSize)
 	{
 		m_pData[in] = value;
@@ -128,7 +126,7 @@ void CMyVector<T>::push_back(const T& value)
 template <class T>
 void CMyVector<T>::list()
 {
-	for (int i = 0; i < m_nSize; i++)
+	for (unsigned i = 0; i < m_nSize; i++)
 	{
 		auto asd = m_pData[i];
 		std::cout << i + 1 << ".: " << asd << std::endl;

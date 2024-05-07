@@ -14,7 +14,7 @@
 //
 //	 FELADAT: 8
 //
-//	 VERZIÓ: 1
+//	 VERZIÓ: 2
 
 CMyStringException::CMyStringException(const char* s) : m_message(s) {}
 
