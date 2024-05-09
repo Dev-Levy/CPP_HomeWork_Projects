@@ -1,3 +1,4 @@
+#include <iostream>
 #include "CSalesPerson.h"
 
 CSalesPerson::CSalesPerson()
@@ -22,7 +23,21 @@ void CSalesPerson::SetSales(float sales)
 	m_fSalesMade = sales;
 }
 
+void CSalesPerson::Input(void)
+{
+	CWageEmployee::Input();
+	std::cout << "Commission: ";
+	std::cin >> m_fCommission;
+	std::cout << "Sales: ";
+	std::cin >> m_fSalesMade;
+}
+
 float CSalesPerson::ComputePay() const
 {
 	return CWageEmployee::ComputePay() + m_fCommission * m_fSalesMade;
+}
+
+void CSalesPerson::Display(void) const
+{
+	CEmployee::Display();
 }

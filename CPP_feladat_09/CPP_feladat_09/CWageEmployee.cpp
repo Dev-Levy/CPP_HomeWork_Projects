@@ -1,3 +1,4 @@
+#include <iostream>
 #include "CWageEmployee.h"
 
 CWageEmployee::CWageEmployee()
@@ -22,7 +23,21 @@ void CWageEmployee::SetHours(float hrs)
 	m_fHours = hrs;
 }
 
+void CWageEmployee::Input(void)
+{
+	CEmployee::Input();
+	std::cout << "Wage: ";
+	std::cin >> m_fWage;
+	std::cout << "Hours: ";
+	std::cin >> m_fHours;
+}
+
 float CWageEmployee::ComputePay() const
 {
 	return m_fWage * m_fHours;
+}
+
+void CWageEmployee::Display(void) const
+{
+	CEmployee::Display();
 }

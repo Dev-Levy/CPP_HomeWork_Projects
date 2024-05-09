@@ -1,5 +1,5 @@
+#include <iostream>
 #include "CEmployee.h"
-#include <string.h>
 
 CEmployee::CEmployee()
 {
@@ -29,7 +29,18 @@ void CEmployee::SetName(const char* nm)
 	m_szName[i] = '\0';
 }
 
+void CEmployee::Input(void)
+{
+	std::cout << "Name: ";
+	std::cin >> m_szName;
+}
+
 float CEmployee::ComputePay() const
 {
 	return 0.0f;
+}
+
+void CEmployee::Display(void) const
+{
+	std::cout << "Név: " << m_szName << " - Fizetés: " << ComputePay() << std::endl;
 }
