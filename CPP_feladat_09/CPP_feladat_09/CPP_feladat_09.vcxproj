@@ -132,6 +132,7 @@
     <ClCompile Include="CManager.cpp" />
     <ClCompile Include="CSalesPerson.cpp" />
     <ClCompile Include="CWageEmployee.cpp" />
+    <ClCompile Include="Logic.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +140,7 @@
     <ClInclude Include="CManager.h" />
     <ClInclude Include="CSalesPerson.h" />
     <ClInclude Include="CWageEmployee.h" />
+    <ClInclude Include="Logic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

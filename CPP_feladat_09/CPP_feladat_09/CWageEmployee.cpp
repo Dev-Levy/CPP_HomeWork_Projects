@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 9
+//
+//	 VERZIÓ: 1
+
 #include <iostream>
 #include "CWageEmployee.h"
 
@@ -40,4 +49,5 @@ float CWageEmployee::ComputePay() const
 void CWageEmployee::Display(void) const
 {
 	CEmployee::Display();
+	std::cout << " Wage: " << m_fWage << " Hours: "<< m_fHours;
 }

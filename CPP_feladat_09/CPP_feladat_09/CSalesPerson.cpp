@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 9
+//
+//	 VERZIÓ: 1
+
 #include <iostream>
 #include "CSalesPerson.h"
 
@@ -39,5 +48,6 @@ float CSalesPerson::ComputePay() const
 
 void CSalesPerson::Display(void) const
 {
-	CEmployee::Display();
+	CWageEmployee::Display();
+	std::cout << " Commission: " << m_fCommission << " Sales Made: " << m_fSalesMade;
 }

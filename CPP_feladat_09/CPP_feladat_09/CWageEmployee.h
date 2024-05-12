@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 9
+//
+//	 VERZIÓ: 1
+
 #pragma once
 #include "CEmployee.h"
 class CWageEmployee : public CEmployee
@@ -10,7 +19,7 @@ class CWageEmployee : public CEmployee
 
 		virtual void Input(void);
 		virtual float ComputePay() const;
-		void Display(void) const;
+		virtual void Display(void) const;
 	private:
 		float m_fWage;		//órabér
 		float m_fHours;		//órák száma

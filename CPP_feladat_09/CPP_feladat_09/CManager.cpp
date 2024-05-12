@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 9
+//
+//	 VERZIÓ: 1
+
 #include <iostream>
 #include "CManager.h"
 
@@ -31,4 +40,5 @@ float CManager::ComputePay() const
 void CManager::Display(void) const
 {
 	CEmployee::Display();
+	std::cout << " Weekly Salary: " << m_fWeeklySalary;
 }

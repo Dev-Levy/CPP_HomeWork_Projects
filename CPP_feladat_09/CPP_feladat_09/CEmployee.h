@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 9
+//
+//	 VERZIÓ: 1
+
 #pragma once
 class CEmployee
 {
@@ -9,7 +18,7 @@ class CEmployee
 
 		virtual void Input(void);
 		virtual float ComputePay() const;
-		void Display(void) const;
+		virtual void Display(void) const;
 	private:
 		char m_szName[30];	//név
 };

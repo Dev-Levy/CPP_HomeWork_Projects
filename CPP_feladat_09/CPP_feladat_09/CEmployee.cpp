@@ -1,3 +1,12 @@
+
+//	Oláh Levente
+//
+//	  A3C6TV
+//
+//	 FELADAT: 9
+//
+//	 VERZIÓ: 1
+
 #include <iostream>
 #include "CEmployee.h"
 
@@ -42,5 +51,5 @@ float CEmployee::ComputePay() const
 
 void CEmployee::Display(void) const
 {
-	std::cout << "Név: " << m_szName << " - Fizetés: " << ComputePay() << std::endl;
+	std::cout << "Name: " << m_szName;
 }
